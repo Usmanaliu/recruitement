@@ -1,0 +1,69 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+@font-face {
+    font-family: 'Jamil Noori Nastaliq';
+    src: url('http://localhost:8080/assets/fonts/JameelNooriNastaleeq.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Jamil Noori Nastaliq', sans-serif;   
+}
+
+.pic{
+    width: 165px;
+    height: 180px;
+}
+
+.logo{
+    width: 65%;
+    
+}
+
+.signature, .thumb{
+    border: 2px solid;
+    width: 250px;
+    height: 50px;
+    margin: 5px 25px 25px 25px;
+    text-align: center;
+}
+.box{
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    border: 2px solid;
+}
+
+.field{
+    text-decoration: underline;
+}
+
+.spelling{
+    width: 10px;
+    
+}
+
+
+.form-body{
+    height: 100vh;
+    border: 2px solid;
+    width: 95% !important;
+    margin: auto;
+    border: 2px solid;
+}
+
+.carousel-item img{
+    vertical-align: middle;
+    height: 80vh;
+    width: 80vw;
+}
+
+.btn a{
+    padding: 0!important;
+}
