@@ -1,10 +1,35 @@
 <?= $this->extend('templates/base'); ?>
 
-
 <?= $this->section('content'); ?>
 
+<link rel="stylesheet" href="<?= base_url('assets/css/styles.css') ?>">
 
-<div class="container">
+<nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Job Portal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5 pt-5">
     <div id="carouselExampleCaptions" class="carousel slide">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -47,27 +72,24 @@
 
 <section class="body-cards my-5">
     <div class="container">
-        <div class="d-flex flex-wrap">
-        <?php foreach ($jobs as $job): ?>
-
-                <div class="card m-5" style="width: 18rem;">
+        <h2 class="text-center mb-4">Available Jobs</h2>
+        <div class="d-flex flex-wrap justify-content-center">
+            <?php foreach ($jobs as $job): ?>
+                <div class="card m-3 shadow-lg" style="width: 18rem;">
                     <img src="<?= base_url('assets/images/constable.jfif') ?>" class="card-img-top" alt="constable posts">
                     <div class="card-body">
                         <h5 class="card-title"><strong>Apply for <?= $job['job_title'] ?></strong></h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="btn d-flex justify-content-between">
-                            
-                            <a href="#" class="">View Details</a>
-                            <a href="#" class=" ">Apply</a>
-                            <a href="#" class="">Download Slip</a>
+                        <div class="btn-group d-flex justify-content-between">
+                            <a href="#" class="btn btn-primary">View Details</a>
+                            <a href="#" class="btn btn-success">Apply</a>
+                            <a href="#" class="btn btn-info">Download Slip</a>
                         </div>
                     </div>
                 </div>
-                <?php endforeach; ?>
-            </div>
-
+            <?php endforeach; ?>
+        </div>
     </div>
 </section>
-
 
 <?= $this->endSection() ?>

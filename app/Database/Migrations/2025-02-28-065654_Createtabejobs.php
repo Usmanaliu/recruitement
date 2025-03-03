@@ -12,7 +12,7 @@ class Createtabejobs extends Migration
     {
         $this->forge->addField([
             'job_id' => [
-                'type' => 'BIGINT', 'constraint' => 20, 'auto_increment' => true
+                'type' => 'INT', 'constraint' => 11, 'auto_increment' => true,
             ],
             'job_type' => [
                 'type' => 'VARCHAR', 'constraint' => 255
