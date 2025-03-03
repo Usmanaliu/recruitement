@@ -11,7 +11,7 @@ class CreateJobApplicationsTable extends Migration
     {
         $this->forge->addField([
             'application_id' => ['type' => 'BIGINT', 'constraint' => 20, 'auto_increment' => true],
-            'post_id' => ['type' => 'INT', 'constraint' => 11],
+            'post_id' => ['type' => 'BIGINT', 'constraint' => 20,],
             'district' => ['type' => 'VARCHAR', 'constraint' => 255],
             'cand_name_urdu' => ['type' => 'VARCHAR', 'constraint' => 255],
             'cand_name_eng' => ['type' => 'VARCHAR', 'constraint' => 255],

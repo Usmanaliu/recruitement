@@ -61,9 +61,47 @@ class JobApplication extends Controller
         $dompdf->render();
         $dompdf->stream("job_application.pdf", ["Attachment" => 1]);
     }
-    public function join(){
+    public function vacancies(){
         $model = new JobsModel();
         $data['jobs'] = $model->findAll();
-        return view('apply/apply', $data);
+        return view('apply/vacancies', $data);
+    }
+    public function requirements($job_id){
+        $model = new JobsModel();
+        $requirement = $model->find($job_id);
+        $data = [
+            'requirement' => $requirement
+        ];
+        return view('apply/requirements', $data);
+    }
+
+    public function apply($job_id){
+        $model = new JobsModel();
+        $job = $model->find($job_id);
+    
+        // Load the form validation library
+        $validation = \Config\Services::validation();
+    
+        // Set validation rules
+        $validation->setRules([
+            'cand_cnic' => 'required|numeric|min_length[13]|max_length[13]'
+        ]);
+    
+        // Check if the form validation passes
+        if ($this->request->getMethod() === 'post' && $validation->withRequest($this->request)->run()) {
+            $cnic = $this->request->getPost('cand_cnic');
+            $data = [
+                'job' => $job,
+                'cnic' => $cnic
+            ];
+            return view('apply/apply', $data);
+        } else {
+            // Validation failed, show errors
+            $data = [
+                'job' => $job,
+                'validation' => $validation
+            ];
+            return view('apply/apply', $data);
+        }
     }
 }
