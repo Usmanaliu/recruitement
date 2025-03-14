@@ -10,6 +10,7 @@ class CreateTableRequirements extends Migration
     public function up()
     {
         //
+        
         $this->forge->addField([
             'req_id' => [
                 'type' => 'BIGINT', 
@@ -18,8 +19,8 @@ class CreateTableRequirements extends Migration
                 'auto_increment' => true
             ],
             'job_id' => [
-                'type' => 'BIGINT',
-                'constraint' => 20,
+                'type' => 'INT',
+                'constraint' => 11,
             ],
             'education' => [
                 'type' => 'VARCHAR',

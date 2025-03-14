@@ -43,4 +43,9 @@ class ReqModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function job()
+    {
+        return $this->belongsTo(JobsModel::class, 'job_id');
+    }
 }

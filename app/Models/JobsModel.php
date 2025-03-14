@@ -43,4 +43,14 @@ class JobsModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function requirements()
+    {
+        return $this->hasMany(ReqModel::class, 'job_id');
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(JobApplicationModel::class, 'job_id');
+    }
 }

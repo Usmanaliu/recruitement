@@ -9,6 +9,7 @@ class Applications extends Migration
 {
     public function up()
     {
+        
         $this->forge->addField([
             'applicaton_id' => [
                 'type' => 'INT',
