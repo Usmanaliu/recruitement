@@ -105,11 +105,7 @@
 
 <script>
 
-const myCarousel = document.getElementById('myCarousel')
 
-myCarousel.addEventListener('slide.bs.carousel', event => {
-  // do something...
-})
 
     document.querySelectorAll("input[id^='cand_cnic_']").forEach(function(input) {
         input.addEventListener("input", function() {

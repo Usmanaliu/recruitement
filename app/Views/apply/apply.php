@@ -40,7 +40,7 @@
                 <td>Generl Information:</td>
 
                 <td>
-                    <a id="genInfo" href="<?= base_url('/informationForm?application_id=' . $application['application_id']) ?>" class="btn btn-primary m-2">
+                    <a id="genInfo" href="<?= base_url('/informationForm/' . $application['application_id']) ?>" class="btn btn-primary m-2 show-loader">
                         <?php echo ($application['district']) ? "Update" : "Add"; ?></a>
                 </td>
 
@@ -49,7 +49,7 @@
                 <td>Education:</td>
 
                 <td>
-                    <a id="edu" href="<?= base_url('/educationFrom?application_id=' . $application['application_id']) ?>" class="btn btn-primary m-2">
+                    <a id="edu" href="<?= base_url('/educationFrom/' . $application['application_id']) ?>" class="btn btn-primary m-2 show-loader">
                         <?php echo ($application['education']) ? "Update" : "Add"; ?></a>
                 </td>
 
@@ -58,7 +58,7 @@
                 <td>Relatives Police:</td>
 
                 <td>
-                    <a id="relPo" href="<?= base_url('/relative-form-data?application_id=' . $application['application_id']) ?>" class="btn btn-primary m-2">
+                    <a id="relPo" href="<?= base_url('/relative-form-data/' . $application['application_id']) ?>" class="btn btn-primary m-2 show-loader">
                         <?= ($application['relation_relative']) ? "Update" : "Add"; ?>
                     </a>
                 </td>
@@ -68,7 +68,7 @@
                 <td>Experiance:</td>
 
                 <td>
-                    <a id="exp" href="<?= base_url('/experianceInfoForm?application_id=' . $application['application_id']) ?>" class="btn btn-primary m-2">
+                    <a id="exp" href="<?= base_url('/experianceInfoForm/' . $application['application_id']) ?>" class="btn btn-primary m-2 show-loader">
                         <?= ($application['relation_relative']) ? "Update" : "Add"; ?>
                     </a>
                 </td>

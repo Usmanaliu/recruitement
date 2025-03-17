@@ -41,8 +41,6 @@ class CreateJobApplicationsTable extends Migration
             'gender' => [
                 'type'       => 'ENUM',
                 'constraint' => ['Male', 'Female', 'Other'],
-                'default'    => 'Male',
-                'null'       => false,
             ],
             'picture' => [
                 'type'       => 'VARCHAR',

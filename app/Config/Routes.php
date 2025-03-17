@@ -29,10 +29,10 @@ $routes->get('/check-completion/(:num)', 'JobApplication::checkCompletion/$1');
 $routes->post('/submit-application/(:num)', 'JobApplication::submitApplication/$1');
 
 
-$routes->match(['get','post'],'/informationForm', 'JobApplication::form_info');
+$routes->match(['get','post'],'/informationForm/(:num)', 'JobApplication::form_info/$1');
 $routes->post('/candidate-genInfo-save', 'JobApplication::genInfoSave');
 
-$routes->match(['get','post'],'/educationFrom', 'JobApplication::eduForm');
+$routes->match(['get','post'],'/educationFrom/(:num)', 'JobApplication::eduForm/$1');
 $routes->match(['get','post'],'/educationFromentry', 'JobApplication::add');
 
 $routes->get('education/delete/(:num)/(:num)', 'JobApplication::delete/$1/$2');
@@ -40,10 +40,10 @@ $routes->get('education/delete/(:num)/(:num)', 'JobApplication::delete/$1/$2');
 
 $routes->match(['get','post'],'/application-page', 'JobApplication::applicationPage');
 
-$routes->match(['get','post'],'/relative-form-data', 'JobApplication::relativeFormData');
+$routes->match(['get','post'],'/relative-form-data/(:num)', 'JobApplication::relativeFormData/$1');
 $routes->match(['get','post'],'/relative_save', 'JobApplication::relativesFormSave');
 
 
-$routes->get('/experianceInfoForm','JobApplication::experianceFromView');
+$routes->get('/experianceInfoForm/(:num)','JobApplication::experianceFromView/$1');
 $routes->match(['get','post'],'/experienceSave', 'JobApplication::ExpSave');
 

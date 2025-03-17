@@ -289,7 +289,8 @@ class JobApplication extends Controller
             $data = [
                 'district' => $this->request->getPost('district'),
                 'cand_name_urdu' => $this->request->getPost('cand_name_urdu'),
-                'cand_name_eng' => $this->request->getPost('cand_name_urdu'),
+                'cand_name_eng' => $this->request->getPost('cand_name_eng'),
+                'gender' => $this->request->getPost('gender'),
                 'father_name_urdu' => $this->request->getPost('father_name_urdu'),
                 'father_name_eng' => $this->request->getPost('father_name_eng'),
                 'father_occupation' => $this->request->getPost('father_occupation'),
@@ -316,10 +317,7 @@ class JobApplication extends Controller
                 // Redirect back with error message
                 return redirect()->back()->with('error', 'Failed to save data!');
             }
-            // $model->update($applicationId,$data);
 
-            // Redirect back with success message
-            // return redirect()->back()->with('success', 'Data saved successfully!');
         } else {
             // Return with validation errors
             return redirect()->back()
@@ -328,30 +326,29 @@ class JobApplication extends Controller
         }
     }
 
-    public function form_info($errors = null)
+    public function form_info($Getapplication_id = null)
     {
         helper('form');
-        if($this->request->getMethod() == 'post'){
+        if($this->request->getMethod() == 'POST'){
             $application_id = $this->request->getPost('application_id');
         }else{
-            $application_id = $this->request->getGet('application_id');
+            $application_id = $Getapplication_id;
         }
         
         $data = [
             'application_id' => $application_id,
-            'errors' => $errors
         ];
         return view('apply/gen_info_form', $data);
     }
 
 
-    public function eduForm()
+    public function eduForm($Getapplication_id = null)
     {
         helper('form');
-        if($this->request->getMethod() == 'post'){
+        if($this->request->getMethod() == 'POST'){
             $application_id = $this->request->getPost('application_id');
         }else{
-            $application_id = $this->request->getGet('application_id');
+            $application_id = $Getapplication_id;
         }
         
         $data = [
@@ -505,14 +502,14 @@ class JobApplication extends Controller
     }
 
 
-    public function relativeFormData()
+    public function relativeFormData($Getapplication_id = null)
     {
         helper('form');
 
         if($this->request->getMethod() == 'post'){
             $application_id = $this->request->getPost('application_id');
         }else{
-            $application_id = $this->request->getGet('application_id');
+            $application_id = $Getapplication_id;
         }
         $data = [
             'application_id' => $application_id,
@@ -559,16 +556,18 @@ $application_id = $this->request->getPost('application_id');
         
     }
 
-    public function experianceFromView(){
+    public function experianceFromView($Getapplication_id=null){
 
         helper('form');
+        if($this->request->getMethod()==='GET'){
 
-        $application_id = $this->request->getVar('application_id');
+            $application_id = $Getapplication_id;
+        }
         
         return view('apply/Exp_form', ['application_id' => $application_id]);
     }
 
     public function ExpSave(){
-        
+        return view('apply/loader');
     }
 }

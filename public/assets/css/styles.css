@@ -1,127 +1,202 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-
 @font-face {
-    font-family: 'Jamil Noori Nastaliq';
-    src: url('http://localhost:8080/assets/fonts/JameelNooriNastaleeq.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Jamil Noori Nastaliq";
+  src: url("http://localhost:8080/assets/fonts/JameelNooriNastaleeq.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
-    font-family: 'Jamil Noori Nastaliq', sans-serif;   
+  font-family: "Jamil Noori Nastaliq", sans-serif;
 }
 .pic {
-    width: 150px; /* Set fixed width */
-    height: 150px; /* Set fixed height */
-    overflow: hidden; /* Hide overflow */
-    border-radius: 5px; /* Optional: rounded corners */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid #ccc; /* Optional border */
+  width: 150px; /* Set fixed width */
+  height: 150px; /* Set fixed height */
+  overflow: hidden; /* Hide overflow */
+  border-radius: 5px; /* Optional: rounded corners */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ccc; /* Optional border */
 }
 
 .pic img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures image fills the div without stretching */
-    border-radius: 5px; /* Match div's border-radius */
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* Ensures image fills the div without stretching */
+  border-radius: 5px; /* Match div's border-radius */
 }
 
-.logo{
-    width: 65%;
-    
+.logo {
+  width: 65%;
 }
 
-.signature, .thumb{
-    border: 2px solid;
-    width: 250px;
-    height: 50px;
-    margin: 5px 25px 25px 25px;
-    text-align: center;
+.signature,
+.thumb {
+  border: 2px solid;
+  width: 250px;
+  height: 50px;
+  margin: 5px 25px 25px 25px;
+  text-align: center;
 }
-.box{
-    width: 200px;
-    height: 40px;
-    text-align: center;
-    border: 2px solid;
-}
-
-.field{
-    text-decoration: underline;
+.box {
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  border: 2px solid;
 }
 
-.spelling{
-    width: 10px;
-    
+.field {
+  text-decoration: underline;
 }
 
-
-.form-body{
-    height: 100vh;
-    border: 2px solid;
-    width: 95% !important;
-    margin: auto;
-    border: 2px solid;
+.spelling {
+  width: 10px;
 }
 
-.carousel-item img{
-    vertical-align: middle;
-    height: 80vh;
-    width: 80vw;
+.form-body {
+  height: 100vh;
+  border: 2px solid;
+  width: 95% !important;
+  margin: auto;
+  border: 2px solid;
 }
 
-.btn a{
-    padding: 0!important;
+.carousel-item img {
+  vertical-align: middle;
+  height: 80vh;
+  width: 80vw;
+}
+
+.btn a {
+  padding: 0 !important;
 }
 
 /* public/css/style.css */
 .rtl-direction {
-    direction: rtl;
-    text-align: right;
-    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', sans-serif;
+  direction: rtl;
+  text-align: right;
+  font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", sans-serif;
 }
 
 .card {
-    margin-top: 2rem;
-    border-radius: 15px;
+  margin-top: 2rem;
+  border-radius: 15px;
 }
 
 .card-header {
-    border-radius: 15px 15px 0 0 !important;
+  border-radius: 15px 15px 0 0 !important;
 }
 
 .form-group label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
 .btn-primary {
-    background-color: #004085;
-    border: none;
-    padding: 0.75rem 2rem;
-    transition: all 0.3s;
+  border: none;
+  padding: 0.75rem 2rem;
+  transition: all 0.3s;
 }
 
 .btn-primary:hover {
-    background-color: #002752;
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .spinner-border {
-    vertical-align: middle;
-    margin-left: 5px;
+  vertical-align: middle;
+  margin-left: 5px;
 }
 
 .invalid-feedback {
-    color: red;
-    font-size: 0.875em;
+  color: red;
+  font-size: 0.875em;
 }
 .is-invalid {
-    border-color: red;
+  border-color: red;
+}
+
+.loader {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  position: fixed; /* Fixed to the screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 9999; /* Make sure loader is on top */
+}
+
+.spinner {
+  width: 300px; /* Set your desired logo size */
+  height: 300px; /* Set your desired logo size */
+  transform-style: preserve-3d; /* Enable 3D space for the rotation */
+  animation: rotateY 3s infinite linear; /* Rotate animation */
+}
+
+@keyframes rotateY {
+  0% {
+    transform: rotateY(0deg); /* Start rotation at 0 degrees */
+  }
+  100% {
+    transform: rotateY(360deg); /* Rotate around the Y-axis (vertical axis) */
+  }
+}
+.loader .spinner {
+  animation: rotateY 0.5s infinite linear; /* Apply the 360-degree rotation */
+}
+
+/* Styling for the button */
+/* Style for the button/link with button class */
+.btn-ldr {
+  position: relative;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  /* Bootstrap primary color */
+  color: white;
+  text-decoration: none; /* Remove underline from <a> */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between the logo and text */
+  border-radius: 5px;
+}
+
+/* Image inside the button/link (spinning logo) */
+.unique-spinner {
+  width: 40px; /* Set the size of your logo */
+  height: 30px;
+  transform-origin: center; /* Make sure the image rotates around its center */
+}
+
+/* Keyframes for 360-degree rotation */
+@keyframes rotateSpin {
+  0% {
+    transform: rotate(0deg); /* Start at 0 degrees */
+  }
+  100% {
+    transform: rotate(360deg); /* Rotate to 360 degrees */
+  }
+}
+
+/* When clicked, apply rotation animation */
+
+/* When button is in loading state, replace text with "Adding..." */
+.btn-ldr.loading {
+  color: white;
+  pointer-events: none; /* Disable clicking while loading */
+}
+
+/* When button is clicked, rotate the image */
+.btn-ldr.loading .unique-spinner {
+  animation: rotateSpin 0.5s infinite linear; /* Apply the 360-degree rotation */
 }
