@@ -207,14 +207,7 @@
                     </div>
                 </div>
 
-                <!-- Address -->
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <textarea class="form-control" id="address" name="address" rows="3" required><?= old('address') ?></textarea>
-                    <?php if (isset($errors['address'])): ?>
-                        <div class="text-danger"><?= $errors['address'] ?></div>
-                    <?php endif; ?>
-                </div>
+               
                 <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
                         <span id="buttonText">Save</span>

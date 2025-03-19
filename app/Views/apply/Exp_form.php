@@ -8,6 +8,8 @@
     <?= form_open('/experienceSave', ['method' => 'post', 'id' => 'exp_form']) ?>
     <?= csrf_field() ?>
 
+    <input type="hidden" name="application_id" value="<?= $application_id ?>">
+
     <!-- Experience Section -->
     <div class="form-group">
         <label>

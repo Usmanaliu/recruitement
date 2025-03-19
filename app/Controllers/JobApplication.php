@@ -6,6 +6,7 @@ use App\Models\JobApplicationModel;
 use App\Models\JobsModel;
 use App\Models\ReqModel;
 use App\Models\EducationModel;
+use App\Controllers\District;
 
 use CodeIgniter\Controller;
 use Dompdf\Dompdf;
@@ -26,24 +27,35 @@ class JobApplication extends Controller
         $this->jobModel = new JobsModel();
         $this->requirementModel = new ReqModel();
     }
-    public function index()
+    public function index($job_id)
     {
-        $model = new JobApplicationModel();
-        $cnic = '3520000145888';
-        $application = $model->where('cnic', $cnic)->first();
+        $data = [
+            'application' => null,
+            'age' => null,
+        ];
+        if($this->request->getMethod() === 'POST'){
+            $cnic = $this->request->getPost('cnic');
+            $application = $this->applicationModel->where('cnic', $cnic)->where('job_id',$job_id)->first();
 
         if ($application) {
-            $age = $this->getAge($application['dob']);
+            
+                $data['application'] = $application;
+                $data['age']   = $this->getAge($application['dob']);
+        
         } else {
-            $age = null; // Handle case when no record is found
+            session()->setFlashdata('error', 'no record');
         }
+        }
+        
+        return view('getApplication/application', $data);
+    }
 
-        // Correct way to pass data
-        $data = [
-            'age' => $age,
-            'application' => $application
-        ];
-        return view('job_applications/application', $data);
+    public function download($application_id){
+        $application = $this->applicationModel->find($application_id);
+        $data['application'] = $application;
+        $data['age'] = $this->getAge($application['dob']);
+        $data['job'] = $this->jobModel->find($application['job_id']);
+         return view('job_applications/application_copy',$data);
     }
 
     private function getAge($dob)
@@ -240,11 +252,11 @@ class JobApplication extends Controller
         $model = $this->applicationModel;
         $application = $model->find($applicationId);
         $complete = null;
-        // $complete = !empty($application['picture']) 
-        //     && !empty($application['cand_name_eng']) 
-        //     && $this->educationModel->existsForApplication($applicationId);
+        $complete = !empty($application['picture']) 
+            && !empty($application['cand_name_eng']) 
+            && $this->educationModel->existsForApplication($applicationId);
 
-        return $this->response->setJSON(['complete' => $complete]);
+        // return $this->response->setJSON(['complete' => $complete]);
     }
 
     // Submit Application
@@ -279,7 +291,6 @@ class JobApplication extends Controller
             'email' => 'required|max_length[30]',
             'cast' => 'required|max_length[255]',
             'dob' => 'required|max_length[255]',
-            'address' => 'required|max_length[255]',
             'phone' => 'required|max_length[255]',
 
         ];
@@ -287,7 +298,7 @@ class JobApplication extends Controller
         if ($this->validate($rules)) {
             // Get form data
             $data = [
-                'district' => $this->request->getPost('district'),
+                'district_domicile' => $this->request->getPost('district'),
                 'cand_name_urdu' => $this->request->getPost('cand_name_urdu'),
                 'cand_name_eng' => $this->request->getPost('cand_name_eng'),
                 'gender' => $this->request->getPost('gender'),
@@ -298,11 +309,10 @@ class JobApplication extends Controller
                 'email' => $this->request->getPost('email'),
                 'cast' => $this->request->getPost('cast'),
                 'dob' => $this->request->getPost('dob'),
-                'address' => $this->request->getPost('address'),
                 'phone' => $this->request->getPost('phone'),
                 // Add all other fields
             ];
-
+            
             // Insert into database
             if ($model->update($applicationId, $data)) {
                 // Redirect back with success 
@@ -317,7 +327,6 @@ class JobApplication extends Controller
                 // Redirect back with error message
                 return redirect()->back()->with('error', 'Failed to save data!');
             }
-
         } else {
             // Return with validation errors
             return redirect()->back()
@@ -329,12 +338,12 @@ class JobApplication extends Controller
     public function form_info($Getapplication_id = null)
     {
         helper('form');
-        if($this->request->getMethod() == 'POST'){
+        if ($this->request->getMethod() == 'POST') {
             $application_id = $this->request->getPost('application_id');
-        }else{
+        } else {
             $application_id = $Getapplication_id;
         }
-        
+
         $data = [
             'application_id' => $application_id,
         ];
@@ -345,12 +354,12 @@ class JobApplication extends Controller
     public function eduForm($Getapplication_id = null)
     {
         helper('form');
-        if($this->request->getMethod() == 'POST'){
+        if ($this->request->getMethod() == 'POST') {
             $application_id = $this->request->getPost('application_id');
-        }else{
+        } else {
             $application_id = $Getapplication_id;
         }
-        
+
         $data = [
             'educations' => $this->educationModel->where('application_id', $application_id)->findAll(),
             'application_id' => $application_id,
@@ -408,7 +417,7 @@ class JobApplication extends Controller
         if (!$this->validate($rules)) {
 
             $errors = $this->validator->getErrors();
-            return redirect()->back()->withInput()->with('errors',$errors);
+            return redirect()->back()->withInput()->with('errors', $errors);
         }
 
         if ($existing) {
@@ -506,9 +515,9 @@ class JobApplication extends Controller
     {
         helper('form');
 
-        if($this->request->getMethod() == 'post'){
+        if ($this->request->getMethod() == 'post') {
             $application_id = $this->request->getPost('application_id');
-        }else{
+        } else {
             $application_id = $Getapplication_id;
         }
         $data = [
@@ -520,7 +529,7 @@ class JobApplication extends Controller
     public function relativesFormSave()
     {
         helper('form');
-$application_id = $this->request->getPost('application_id');
+        $application_id = $this->request->getPost('application_id');
         $is_relative = $this->request->getPost('relative_Police');
         if ($is_relative == 0) {
             $data['relation_relative'] = 'Nil';
@@ -528,7 +537,7 @@ $application_id = $this->request->getPost('application_id');
             $data['relative_belt_number'] = 'Nil';
             $data['relative_district'] = 'Nil';
             $data['relative_Police'] = 0;
-        }else{
+        } else {
             $data = [
                 'relative_Police' => $this->request->getPost('relative_Police'),
                 'relation_relative' => $this->request->getPost('relation_relative'),
@@ -542,32 +551,138 @@ $application_id = $this->request->getPost('application_id');
                 'relative_rank' => 'required|max_length[255]',
                 'relative_belt_number' => 'required|max_length[255]',
                 'relative_district' => 'required|max_length[255]',
-                ];
-                if(!$this->validate($rules)){
-                    return redirect()->back()->with('errors', $this->validator->getErrors())->withInput();
-                }
-        }
-        
-            if ($this->applicationModel->update($application_id, $data)) {
-                return redirect()->to('/application-page?application_id=' . $application_id);
-            } else {
-                return redirect()->back()->with('errors', 'Failed to save data!');
+            ];
+            if (!$this->validate($rules)) {
+                return redirect()->back()->with('errors', $this->validator->getErrors())->withInput();
             }
-        
+        }
+
+        if ($this->applicationModel->update($application_id, $data)) {
+            return redirect()->to('/application-page?application_id=' . $application_id);
+        } else {
+            return redirect()->back()->with('errors', 'Failed to save data!');
+        }
     }
 
-    public function experianceFromView($Getapplication_id=null){
+    public function experianceFromView($Getapplication_id = null)
+    {
 
         helper('form');
-        if($this->request->getMethod()==='GET'){
+        if ($this->request->getMethod() === 'GET') {
 
             $application_id = $Getapplication_id;
         }
-        
+
+
         return view('apply/Exp_form', ['application_id' => $application_id]);
     }
 
-    public function ExpSave(){
-        return view('apply/loader');
+    public function ExpSave()
+    {
+
+        if ($this->request->getMethod() === 'POST') {
+            $application_id = $this->request->getVar('application_id');
+            $isExp = $this->request->getVar('isExperience');
+            $Ex_army = $this->request->getVar('ex_army');
+        }
+
+        if (!$isExp) {
+
+            $expData = [
+                'job_experience' => 'Nil',
+                'noc_number' => 'Nil'
+            ];
+        } else {
+            $expData = [
+                'job_experience' => $this->request->getVar('job_experience'),
+                'noc_number' => $this->request->getVar('noc_number')
+            ];
+        }
+
+
+        if (!$Ex_army) {
+
+            $armyData = [
+                'ex_army'=> false,
+                'army_joining_date' => null,
+                'ex_army_discharge_certificate_number' => 'Nil',
+                'ex_army_discharge_certificate_date' => null
+            ];
+        } else {
+
+            $armyData = [
+                'ex_army'=> $this->request->getVar('ex_army'),
+                'army_joining_date' => $this->request->getVar('army_joining_date'),
+                'ex_army_discharge_certificate_number' => $this->request->getVar('ex_army_discharge_certificate_number'),
+                'ex_army_discharge_certificate_date' => $this->request->getVar('ex_army_discharge_certificate_date')
+            ];
+        }
+
+        $data = [
+            'job_experience' => $expData['job_experience'],
+            'noc_number' => $expData['noc_number'],
+            'ex_army' => $armyData['ex_army'],
+            'army_joining_date' => $armyData['army_joining_date'],
+            'ex_army_discharge_certificate_number' => $armyData['ex_army_discharge_certificate_number'],
+            'ex_army_discharge_certificate_date' => $armyData['ex_army_discharge_certificate_date'] 
+        ];
+
+        if($this->applicationModel->update($application_id,$data)){
+            return redirect()->to('/application-page?application_id=' . $application_id);
+        }else{
+            redirect()->back()->with('errors', 'failed to save data');
+        }
     }
+
+    public function AddInfo($application_id)
+{
+    helper('form');
+    $districtController = new District();
+    $districts = $districtController->edit();
+    $data = [
+        'application_id' => $application_id,
+        'districts' => $districts
+    ];
+
+    if ($this->request->getMethod() === 'POST') { 
+        $rules = [
+            'permanent_district' => 'required',
+            'permanent_add_ps' => 'required',
+            'permanent_address' => 'required',
+            'current_district' => 'required',
+            'current_add_ps' => 'required',
+            'current_address' => 'required'
+        ];
+
+        if ($this->validate($rules)) {
+            $addData = [
+                'permanent_district' => $this->request->getVar('permanent_district'),
+                'permanent_add_ps' => $this->request->getVar('permanent_add_ps'),
+                'permanent_address' => $this->request->getVar('permanent_address'),
+                'current_district' => $this->request->getVar('current_district'),
+                'current_add_ps' => $this->request->getVar('current_add_ps'),
+                'current_address' => $this->request->getVar('current_address')
+            ];
+        } else {
+            return redirect()->back()->with('errors', $this->validator->getErrors());
+        }
+            // Ensure data is not empty before updating
+            if (!empty(array_filter($addData))) {
+                if ($this->applicationModel->update($application_id, $addData)) {
+                    log_message('info','message',$addData);
+                    return redirect()->to('/application-page?application_id=' . $application_id);
+                } else {
+                    return redirect()->back()->with('error', 'Failed to update information.');
+                }
+            } else {
+                return redirect()->back()->with('error', 'No changes detected.');
+            }
+
+    }else{
+
+        return view('apply/Address_form', $data);
+    }
+
+}
+
 }

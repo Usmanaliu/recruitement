@@ -45,7 +45,11 @@
 
 <section class="body-cards my-5">
     <div class="container">
-        <?php if (!$jobs): ?>
+        <?php
+
+                            use Illuminate\Contracts\Queue\Job;
+
+ if (!$jobs): ?>
             <div class="text-center">
                 <h1>No Jobs Available</h1>
             </div>
@@ -64,7 +68,7 @@
                                 data-bs-target="#applyModel-<?= $job['job_id'] ?>"
                                 data-job-id="<?= esc($job['job_id']) ?>"
                                 class="apply-btn">Apply</a>
-                            <a href="#" class="">Download Slip</a>
+                            <a href="<?= base_url('SearchApplication/'.$job['job_id']) ?>" class="">Download Slip</a>
                         </div>
                     </div>
                 </div>

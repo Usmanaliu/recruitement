@@ -11,6 +11,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#000000">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+  <!-- Load jQuery first -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Then load Select2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<!-- Select2 CSS (for styling) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+  
+  
   <link rel="stylesheet" href="<?= base_url('assets/css/styles.css') ?>">
   <link rel="icon" type="image/x-icon" href="<?= base_url('assets/images/logo2.png') ?>">
 
@@ -20,10 +32,25 @@
   <div id="loader" class="loader" style="display: none;">
     <img src="<?= base_url('assets/images/logo.png') ?>" alt="Logo" class="spinner">
   </div>
+
+  <div id="web-loader" class="loader">
+    <img src="<?= base_url('assets/images/logo.png') ?>" alt="Logo" class="spinner">
+  </div>
+
   <div>
     <?= $this->renderSection('content');  ?>
   </div>
   <script>
+
+
+
+    window.onload = function() {
+      document.getElementById("web-loader").style.display = "none";
+    };
+
+
+
+
     const buttonsFrG = document.querySelectorAll('.btn-ldr');
 
     // Function to handle the button click event

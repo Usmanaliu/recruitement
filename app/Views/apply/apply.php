@@ -2,6 +2,7 @@
 
 <?= $this->section('content'); ?>
 <div class="container">
+    
     <div class="heading text-center">
         <h1>Apply for <?= $job['job_title'] ?> BS- <?= $job['job_scale'] ?></h1>
 
@@ -40,8 +41,17 @@
                 <td>Generl Information:</td>
 
                 <td>
-                    <a id="genInfo" href="<?= base_url('/informationForm/' . $application['application_id']) ?>" class="btn btn-primary m-2 show-loader">
-                        <?php echo ($application['district']) ? "Update" : "Add"; ?></a>
+                    <a id="genInfo" href="<?= base_url('/informationForm/' . $application['application_id']) ?>" class="btn <?php echo ($application['district_domicile']) ? "btn-primary" : "btn-danger"; ?> m-2 show-loader">
+                        <?php echo ($application['district_domicile']) ? "Update" : "Add"; ?></a>
+                </td>
+
+            </tr>
+            <tr>
+                <td>Address:</td>
+
+                <td>
+                    <a id="genInfo" href="<?= base_url('/addressForm/' . $application['application_id']) ?>" class="btn btn-primary m-2 show-loader">
+                        <?php echo ($application['permanent_district']) ? "Update" : "Add"; ?></a>
                 </td>
 
             </tr>
@@ -69,7 +79,7 @@
 
                 <td>
                     <a id="exp" href="<?= base_url('/experianceInfoForm/' . $application['application_id']) ?>" class="btn btn-primary m-2 show-loader">
-                        <?= ($application['relation_relative']) ? "Update" : "Add"; ?>
+                        <?= (($application['ex_army']) || $application['noc_number']) ? "Update" : "Add"; ?>
                     </a>
                 </td>
 
@@ -79,7 +89,7 @@
             <tr>
                 <td>
                     <div id="btn_submit_app" class="btn_submit_app">
-                        <button class="btn btn-primary">Submit Application</button>
+                        <a href="<?= base_url('dowloadApplication/'.$job['job_id']) ?>" class="btn btn-primary">Submit Application</a>
                     </div>
                 </td>
             </tr>

@@ -34,7 +34,7 @@ body {
 }
 
 .logo {
-  width: 65%;
+  width: 75%;
 }
 
 .signature,
@@ -47,23 +47,28 @@ body {
 }
 .box {
   width: 200px;
-  height: 40px;
+  height: 55px;
   text-align: center;
   border: 2px solid;
 }
-
+.box1{
+  width: 200px;
+  text-align: center;
+  border: 2px solid;
+  
+}
 .field {
   text-decoration: underline;
 }
 
 .spelling {
-  width: 10px;
+  width: 15px;
 }
 
 .form-body {
-  height: 100vh;
+  height: 1123px;
   border: 2px solid;
-  width: 95% !important;
+  width: 794px;
   margin: auto;
   border: 2px solid;
 }
@@ -199,4 +204,49 @@ body {
 /* When button is clicked, rotate the image */
 .btn-ldr.loading .unique-spinner {
   animation: rotateSpin 0.5s infinite linear; /* Apply the 360-degree rotation */
+}
+
+
+.row_inline{
+  display:flex;
+}
+
+
+#application_tbl {
+  table-layout: fixed;
+  width: 100%;
+  font-size: 20px; /* Ensures the table does not auto-expand */
+}
+
+
+
+#application_tbl tr td:nth-child(4) {
+  width: 20px; /* Sets the 4th column width */
+ 
+}
+
+#application_tbl tr td:nth-child(3) {
+width: 200px; /* Ensures at least 100px for 3rd column */
+ 
+}
+#application_tbl td:nth-child(2) {
+  width: 140px; /* Change max-width to width */
+  /* Optional: Adds "..." if text overflows */
+}
+/* tr td:nth-child(2) {
+  background-color: yellow;
+  color: red;
+} */
+
+
+.text_direction{
+  direction: rtl;
+}
+
+.cnic{
+  width: 50px;
+}
+
+.tbl2{
+  font-size: 20px;
 }

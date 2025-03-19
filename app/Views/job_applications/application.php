@@ -41,8 +41,8 @@
                         </div>
                     </div>
                     <div class="col-6 text-center">
-                        <h6>نام آسامی ــــــــــــــــ</h6>
-                        <h6>فارم نمبر ــــــــــــــــ</h6>
+                        <h6>نام آسامی <span class="field"><?= $job['job_title'] ?></span></h6>
+                        <h6>فارم نمبر <span class="field"><?= $application['application_id'] ?></span></h6>
                     </div>
                 </div>
             </div>
@@ -50,8 +50,8 @@
             <div class="col-4 d-flex justify-content-end">
 
                 <div class="pic m-3 border">
-
-                </div>
+                    <img src="<?= base_url('assets/uploads/'.$application['picture']) ?>" alt="candidate picture">
+                </div> 
             </div>
         </div>
 
@@ -73,7 +73,7 @@
                         <tr>
 
                             <td class="d-flex justify-content-start flex-wrap">
-                                <?php foreach (str_split($application['name']) as $letter): ?>
+                                <?php foreach (str_split($application['cand_name_eng']) as $letter): ?>
                                     <div class="border spelling text-center"><?= strtoupper($letter)  ?></div>
                                 <?php endforeach; ?>
                             </td>
@@ -92,7 +92,7 @@
 
 
                             <td class="px-2">
-                                <div class="field"><?= esc($application['name_urdu'])  ?></div>
+                                <div class="field"><?= esc($application['cand_name_urdu'])  ?></div>
                             </td>
                             <td class="px-2">نام</td>
                             <td class="px-2">.1</td>
@@ -111,7 +111,7 @@
                         <tr>
                             <td class="px-2">پیشہ/محکمہ ـــــــــــ</td>
                             <td class="d-flex justify-content-start flex-wrap">
-                                <?php foreach (str_split($application['father_name']) as $letter): ?>
+                                <?php foreach (str_split($application['father_name_eng']) as $letter): ?>
                                     <div class="border spelling text-center"><?= strtoupper($letter)  ?></div>
                                 <?php endforeach; ?>
                             </td>
@@ -125,10 +125,10 @@
                 </div>
                 <!-- sr 2 -->
                 <div class="col-4 d-flex justify-content-end">
-                    <table>
+                    <table border="1">
                         <tr>
                             <td class="px-2">
-                                <div class="field"><?= esc($application['f_name_urdu']) ?></div>
+                                <div class="field"><?= esc($application['father_name_urdu']) ?></div>
                             </td>
                             <td class="px-2"> والد کا نام</td>
                             <td class="px-2">.2</td>
@@ -176,7 +176,7 @@
                         <td class="px-1 text-start field"><?= esc($age['year']) ?></td>
                         <td class="px-2">عمر</td>
                         <td class="px-2">.8</td>
-                        <td class="px-2 field"><?= esc($application['district']) ?></td>
+                        <td class="px-2 field"><?= esc($application['district_domicile']) ?></td>
                         <td class="px-2">ضلع</td>
                         <td class="px-2">.7</td>
                     </tr>
