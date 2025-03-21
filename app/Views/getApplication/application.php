@@ -36,8 +36,8 @@
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
-                                    <td><strong>Application Number:</strong></td>
-                                    <td><?= $application['application_id'] ?></td>
+                                    <td><strong>Form Number:</strong></td>
+                                    <td><?= $application['form_number'] ?></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Applicant Name:</strong></td>
@@ -46,6 +46,14 @@
                                 <tr>
                                     <td><strong>Father's Name:</strong></td>
                                     <td><?= $application['father_name_eng'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status:</strong></td>
+                                    <td><?= $application['status'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Remarks:</strong></td>
+                                    <td><?= $application['remarks'] ?></td>
                                 </tr>
                             </tbody>
                         </table>

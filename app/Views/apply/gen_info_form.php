@@ -116,7 +116,8 @@
                 </div>
 
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                    <a class="btn btn-outline-secondary" href="<?= base_url('/application-page?application_id='.$application['application_id']) ?>">Cancel</a>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
                         <span id="buttonText">Save</span>
                         <span id="buttonSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
                     </button>

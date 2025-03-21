@@ -80,8 +80,10 @@
         </div>
     </div>
     <div class="btn_submit">
-
-        <button id='submit-btn'  type="submit" class="mt-5 btn btn-primary d-block mx-auto">Submit</button>
+        <div class="m-auto w-25">
+        <a class="btn btn-outline-secondary me-5" href="<?= base_url('/application-page?application_id='.$application_id) ?>">Cancel</a>
+        <button id='submit-btn'  type="submit" class="btn btn-primary">Save</button>
+        </div>
     </div>
     <?= form_close() ?>
 </div>

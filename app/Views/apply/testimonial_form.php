@@ -128,8 +128,11 @@
         </div>
     </div>
 
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-success btn-lg">Submit Testimonials</button>
+    <div class="buttons">
+        <div class="m-auto w-25">
+        <a class="btn btn-outline-secondary me-5" href="<?= base_url('/application-page?application_id='.$application_id) ?>">Cancel</a>
+        <button type="submit" class="btn btn-success btn-lg">Save</button>
+        </div>
     </div>
 
     <?= form_close() ?>

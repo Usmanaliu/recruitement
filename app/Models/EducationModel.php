@@ -57,4 +57,13 @@ class EducationModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function existsForApplication($applicationId)
+    {
+        return $this->where('application_id', $applicationId)->countAllResults() > 0;
+    }
+    
+
+
+
 }

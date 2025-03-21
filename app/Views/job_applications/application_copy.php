@@ -30,7 +30,7 @@
                             </tr>
                             <tr>
                                 <td><strong>فارم نمبر:</strong></td>
-                                <td class="fw-bold text-secondary"><?= $application['application_id'] ?></td>
+                                <td class="fw-bold text-secondary"><?= $application['form_number'] ?></td>
                             </tr>
                             <tr>
                                 <td><strong>ضلع:</strong></td>
@@ -149,7 +149,7 @@
                 <td></td>
             </tr>
             <tr class="border-top-0">
-                <td colspan="3" class="text-center"><span>پولیس کے جس شعبہ میں ملازمت کی/کر رہے ہیں</span><span class="field mx-3"><?= $application['relative_district'] ?></span>ریٹائرڈ<span></span><span class="field mx-3">Serving</span></td>
+                <td colspan="3" class="text-center"><span>پولیس کے جس شعبہ میں ملازمت کی/کر رہے ہیں</span><span class="field mx-3"><?= $application['relative_district'] ?></span>ریٹائرڈ<span></span><span class="field mx-3"><?= $application['relative_job_status'] ?></span></td>
                 <td></td>
             </tr>
             <tr class="border-bottom-0">
@@ -158,21 +158,21 @@
             </tr>
             <tr class="border-bottom-0 border-top-0">
                 <td></td>
-                <td colspan="2" class="text-end"><strong>(الف)</strong><span>نام:</span><span class="field mx-3"></span><span>ولد</span><span class="field mx-3"></span></td>
-                <td></span><span>موبائل نمبر</span><span class="field mx-3">0300-0000000</span></td>
+                <td colspan="2" class="text-end"><strong>(الف)</strong><span>نام:</span><span class="field mx-3"><?= $application['testimonial1_name'] ?></span><span>ولد</span><span class="field mx-3"><?= $application['testimonial1_father'] ?></span></td>
+                <td></span><span>موبائل نمبر</span><span class="field mx-3"><?= $application['testimonial1_phone'] ?></span></td>
             </tr>
             <tr class="border-bottom-0 border-top-0">
                 <td></td>
-                <td colspan="3" class="text-end"><span class="mx-4">سکنہ:</span><span class="field mx-3"></td>                
+                <td colspan="3" class="text-end"><span class="mx-4">سکنہ:</span><span class="field mx-3"><?= $application['testimonial1_address'] ?></td>                
             </tr>
             <tr class="border-bottom-0 border-top-0">
                 <td></td>
-                <td colspan="2" class="text-end"><strong>(ب)</strong><span>نام:</span><span class="field mx-3"></span><span>ولد</span><span class="field mx-3"></span></td>
-                <td></span><span>موبائل نمبر</span><span class="field mx-3">0300-0000000</span></td>
+                <td colspan="2" class="text-end"><strong>(ب)</strong><span>نام:</span><span class="field mx-3"><?= $application['testimonial2_name'] ?></span><span>ولد</span><span class="field mx-3"><?= $application['testimonial2_father'] ?></span></td>
+                <td></span><span>موبائل نمبر</span><span class="field mx-3"><?= $application['testimonial2_phone'] ?></span></td>
             </tr>
             <tr class="border-top-0">
                 <td></td>
-                <td colspan="3" class="text-end"><span class="mx-4">سکنہ:</span><span class="field mx-3"></span></td>
+                <td colspan="3" class="text-end"><span class="mx-4">سکنہ:</span><span class="field mx-3"><?= $application['testimonial2_address'] ?></span></td>
             </tr>
 
         </table>

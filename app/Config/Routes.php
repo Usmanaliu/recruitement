@@ -59,3 +59,5 @@ $routes->match(['get','post'],'SearchApplication/(:num)','JobApplication::index/
 
 
 $routes->get('/dowloadApplication/(:num)','JobApplication::download/$1');
+
+$routes->match(['get','post'],'forcompletion/(:num)','JobApplication::checkCompletion/$1');

@@ -134,9 +134,13 @@
     </div>
 
     <div class="mt-4">
-        <button type="submit" class="btn btn-primary ms-auto d-block" id="submit-btn">
-            <i class="bi bi-plus-circle"></i> Add Education
-        </button>
+        <div class="ms-auto w-25">
+
+            <a class="btn btn-outline-secondary me-5" href="<?= base_url('/application-page?application_id='.$application_id) ?>">Cancel</a>
+            <button type="submit" class="btn btn-primary ms-auto" id="submit-btn">
+                <i class="bi bi-plus-circle"></i> Add Education
+            </button>
+        </div>
 
     </div>
     <?= form_close() ?>

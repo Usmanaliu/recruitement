@@ -2,6 +2,16 @@
 
 <?= $this->section('content'); ?>
 <div class="container application-container">
+    <?php 
+    $status = session('status');
+    if($status):
+    ?>
+    <div class="alert alert-danger" role="alert">
+        <?= $status ?>
+</div>
+
+<?php endif; ?>
+
     <section class="application-header shadow-sm p-4 mb-5 bg-white rounded">
         <div class="row">
             <!-- Left Column - Job Details -->
@@ -34,7 +44,7 @@
                     <div class="profile-pic-container mb-3">
                         <div class="profile-pic-wrapper rounded-circle border position-relative mx-auto">
                             <img id="previewImage" src="<?= $application['picture'] ? base_url('/assets/uploads/' . $application['picture']) : base_url('/assets/placeholder.jpg') ?>" 
-                                 class="profile-image rounded-circle img-thumbnail" 
+                                 class="profile-image rounded-circle img-thumbnail"
                                  alt="Profile Picture">
                             <div class="upload-overlay rounded-circle">
                                 <i class="fas fa-camera text-white"></i>
@@ -82,7 +92,7 @@
                                     <h6 class="mb-0">Address Information</h6>
                                     <small class="text-muted">Permanent and current address</small>
                                 </div>
-                                <a href="<?= base_url('/addressForm/' . $application['application_id']) ?>" 
+                                <a href="<?= base_url('/addressForm/' . $application['application_id']) ?>"
                                    class="btn <?= $application['permanent_district'] ? 'btn-success' : 'btn-outline-secondary' ?>">
                                     <?= $application['permanent_district'] ? 'Update' : 'Add' ?>
                                 </a>
@@ -163,8 +173,11 @@
                             <small class="d-block mb-2 <?= ($application['ex_army'] || $application['noc_number']) ? 'text-success' : 'text-muted' ?>">
                                 <i class="fas fa-<?= ($application['ex_army'] || $application['noc_number']) ? 'check' : 'times' ?>-circle"></i> Experience
                             </small>
+                            <small class="d-block mb-2 <?= ($application['testimonial1_name'] || $application['testimonial2_name']) ? 'text-success' : 'text-muted' ?>">
+                                <i class="fas fa-<?= ($application['testimonial1_name'] || $application['testimonial2_name']) ? 'check' : 'times' ?>-circle"></i> Testimonial Information
+                            </small>
                         </div>
-                        <a href="<?= base_url('dowloadApplication/'.$job['job_id']) ?>" 
+                        <a href="<?= base_url('forcompletion/'.$application['application_id']) ?>" 
                            class="btn btn-primary btn-lg w-100" 
                            id="submitButton"
                            >

@@ -252,13 +252,59 @@ class JobApplication extends Controller
     {
         $model = $this->applicationModel;
         $application = $model->find($applicationId);
-        $complete = null;
+    
+        if (!$application) {
+            return $this->response->setJSON(['error' => 'Application not found']);
+        }
+    
         $complete = !empty($application['picture']) 
             && !empty($application['cand_name_eng']) 
+            && !empty($application['education']) 
+            && isset($application['relative_Police']) // Since it can be "0", check with isset()
+            && !empty($application['testimonial1_name']) 
             && $this->educationModel->existsForApplication($applicationId);
+    
+        $status = $application['status'] != 'Rejected';
+    
+        if($complete){
+            if($status){$form_number = $this->applicationModel
+                ->where('district_domicile', $application['district_domicile'])
+                ->selectMax('form_number')
+                ->get()
+                ->getRowArray();
+            
+            $form_number = $form_number['form_number'] ?? 0; // Ensure default value if NULL
+            $form_number = $form_number + 1;
+            
+            $updateData = [
+                'status' => 'submitted',
+                'remarks' => 'pending',
+                'form_number' => $form_number
+            ];
+            
+            if ($this->applicationModel->update($applicationId, $updateData)) {
+                return redirect()->to('/SearchApplication/' . $application['job_id']);  
+            } else {
+                return redirect()->back()->with('status', 'Fail to submit your application');
+            }
+            
 
-        // return $this->response->setJSON(['complete' => $complete]);
+            }else{
+                
+               return redirect()->back()->with('status',$application['status']);
+            }
+        }else{
+            return redirect()->back()->with('status','Please add your complete information first');
+        }
+
+        return $this->response->setJSON([
+            'complete' => $complete,
+            'status' => $status,
+            'application' => $application
+        ]);
     }
+    
+
 
     // Submit Application
     public function submitApplication($applicationId)
@@ -341,12 +387,8 @@ class JobApplication extends Controller
             if ($model->update($applicationId, $data)) {
                 // Redirect back with success 
                 
-
-                $appData = [
-                    'job' => $jobmodel->find($application['job_id']),
-                    'application' => $application
-                ];
-                return view('apply/apply', $appData);
+                return redirect()->to('/application-page?application_id=' . $applicationId);
+                
             } else {
                 // Redirect back with error message
                 return redirect()->back()->with('error', 'Failed to save data!');
@@ -387,7 +429,7 @@ class JobApplication extends Controller
 
         $data = [
             'educations' => $this->educationModel->where('application_id', $application_id)->findAll(),
-            'application_id' => $application_id,
+            'application_id' => $application_id
         ];
         return view('apply/education_form', $data);
     }
@@ -517,7 +559,7 @@ class JobApplication extends Controller
         return view('apply/education_form', $data);
     }
 
-    public function applicationPage()
+    public function applicationPage($application_id = null)
     {
         if ($this->request->getMethod('get')) {
             $application_id = $this->request->getGet('application_id');
@@ -557,17 +599,21 @@ class JobApplication extends Controller
         $application_id = $this->request->getPost('application_id');
         $is_relative = $this->request->getPost('relative_Police');
         if ($is_relative == 0) {
+            $data['relation_name'] = 'Nil';
             $data['relation_relative'] = 'Nil';
             $data['relative_rank'] = 'Nil';
             $data['relative_belt_number'] = 'Nil';
             $data['relative_district'] = 'Nil';
+            $data['relative_job_status'] = 'Nil';
             $data['relative_Police'] = 0;
         } else {
             $data = [
                 'relative_Police' => $this->request->getPost('relative_Police'),
                 'relation_relative' => $this->request->getPost('relation_relative'),
+                'relative_name' => $this->request->getPost('relative_name'),
                 'relative_rank' => $this->request->getPost('relative_rank'),
                 'relative_belt_number' => $this->request->getPost('relative_belt_number'),
+                'relative_job_status' => $this->request->getPost('relative_job_status'),
                 'relative_district' => $this->request->getPost('relative_district'),
             ];
             $rules = [
@@ -664,8 +710,9 @@ class JobApplication extends Controller
     helper('form');
     $districtController = new District();
     $districts = $districtController->edit();
+    $application = $this->applicationModel->find($application_id);
     $data = [
-        'application_id' => $application_id,
+        'application' => $application,
         'districts' => $districts
     ];
 
