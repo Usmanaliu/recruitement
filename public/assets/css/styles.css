@@ -215,7 +215,7 @@ body {
 #application_tbl {
   table-layout: fixed;
   width: 100%;
-  font-size: 20px; /* Ensures the table does not auto-expand */
+  font-size: 18px; /* Ensures the table does not auto-expand */
 }
 
 
@@ -248,5 +248,39 @@ width: 200px; /* Ensures at least 100px for 3rd column */
 }
 
 .tbl2{
-  font-size: 20px;
+  font-size: 18px;
+}
+
+#slip{
+  min-width: 794px;
+  max-width: 794px;
+  
+  min-height: 1123px;
+  max-height: 1123px;
+}
+.rolSlip{
+  border: 2px solid;
+  height: 33%;
+}
+
+.rolSlip h4{
+  font-size: xx-large;
+}
+.stamp{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7rem;
+  font-size: x-large;
+}
+
+.slipTbl{
+  font-size: 22px;
+    margin: auto;
+    width: 90%;
+    height: 95%;
+}
+
+#main_app table tr{
+  border: 1px solid rgba(128, 128, 128, 0.452);
 }

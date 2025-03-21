@@ -1,102 +1,84 @@
-<!-- filepath: /c:/Users/dmonitring/Desktop/codeigniter4/recruitement/app/Views/apply/vacancies.php -->
 <?= $this->extend('templates/base'); ?>
 
 <?= $this->section('content'); ?>
 
-<div class="container">
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+<div class="container my-4">
+    <div id="jobCarousel" class="carousel slide shadow-lg rounded overflow-hidden" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#jobCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#jobCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#jobCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="10000">
-                <img src="<?= base_url('assets/images/job1.jpg') ?>" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>First slide label</h5>
-                    <p>Some representative placeholder content for the first slide.</p>
+            <div class="carousel-item active" data-bs-interval="4000">
+                <img src="<?= base_url('assets/images/job1.jpg') ?>" class="d-block w-100 rounded" alt="Job Vacancy">
+                <div class="carousel-caption bg-dark bg-opacity-50 rounded p-2">
+                    <h5>Join Us Today</h5>
+                    <p>Explore the latest job opportunities available.</p>
                 </div>
             </div>
-            <div class="carousel-item" data-bs-interval="2000">
-                <img src="<?= base_url('assets/images/job2.jpg') ?>" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
+            <div class="carousel-item" data-bs-interval="4000">
+                <img src="<?= base_url('assets/images/job2.jpg') ?>" class="d-block w-100 rounded" alt="Career Growth">
+                <div class="carousel-caption bg-dark bg-opacity-50 rounded p-2">
+                    <h5>Build Your Career</h5>
+                    <p>Find the perfect job that matches your skills.</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="<?= base_url('assets/images/job3.jpg') ?>" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
+                <img src="<?= base_url('assets/images/job3.jpg') ?>" class="d-block w-100 rounded" alt="Success Stories">
+                <div class="carousel-caption bg-dark bg-opacity-50 rounded p-2">
+                    <h5>Your Future Starts Here</h5>
+                    <p>Apply now and take the first step towards success.</p>
                 </div>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div></div>
+    </div>
+</div>
 
-<section class="body-cards my-5">
-    <div class="container">
-        <?php
-
-                            use Illuminate\Contracts\Queue\Job;
-
- if (!$jobs): ?>
-            <div class="text-center">
-                <h1>No Jobs Available</h1>
-            </div>
-        <?php endif; ?>
-        <div class="d-flex flex-wrap">
+<section class="container py-5">
+    <?php if (!$jobs): ?>
+        <div class="text-center py-5">
+            <h2 class="text-muted">No Jobs Available</h2>
+        </div>
+    <?php else: ?>
+        <div class="row">
             <?php foreach ($jobs as $job): ?>
-                <div class="card m-5" style="width: 18rem;">
-                    <img src="<?= base_url('assets/images/constable.jfif') ?>" class="card-img-top" alt="constable posts">
-                    <div class="card-body">
-                        <h5 class="card-title"><strong>Apply for <?= $job['job_title'] ?></strong></h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="btn d-flex justify-content-between">
-                            <a href="#" class="">View Details</a>
-                            <a
-                                data-bs-toggle="modal"
-                                data-bs-target="#applyModel-<?= $job['job_id'] ?>"
-                                data-job-id="<?= esc($job['job_id']) ?>"
-                                class="apply-btn">Apply</a>
-                            <a href="<?= base_url('SearchApplication/'.$job['job_id']) ?>" class="">Download Slip</a>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card shadow-lg border-0 rounded h-100">
+                        <img src="<?= base_url('assets/images/constable.jfif') ?>" class="card-img-top" alt="Job Image">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-primary">Apply for <?= esc($job['job_title']) ?></h5>
+                            <p class="card-text">Find out if you're eligible and apply today.</p>
+                            <div class="mt-auto d-flex justify-content-around">
+                                <a href="#" class="btn btn-outline-primary btn-lg">View Details</a>
+                                <button class="btn btn-success btn-lg apply-btn" data-bs-toggle="modal" data-job-id="<?= esc($job['job_id']) ?>"  data-bs-target="#applyModal-<?= $job['job_id'] ?>">Apply</button>
+                                <a href="<?= base_url('SearchApplication/'.$job['job_id']) ?>" class="btn btn-dark btn-lg">Download Slip</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
-                <!-- Modal -->
-                <div class="modal fade" id="applyModel-<?= $job['job_id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                
+                <!-- Apply Modal -->
+                <div class="modal fade" id="applyModal-<?= $job['job_id'] ?>" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Enter Your CNIC</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <h5 class="modal-title">Apply for <?= esc($job['job_title']) ?></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                                <h4>Requirements:</h4>
-                                <p id="requirements-<?= $job['job_id'] ?>">Loading...</p>
-
+                                <p><strong>Requirements:</strong></p>
+                                <ul id="requirements-<?= $job['job_id'] ?>" class="list-group list-group-flush">Loading...</ul>
                                 <form action="<?= base_url('/apply/' . $job['job_id']) ?>" method="post">
                                     <div class="mb-3">
-                                        <input type="text" class="form-control" name="cand_cnic"
-                                            id="cand_cnic_<?= $job['job_id'] ?>"
-                                            pattern="\d{13}" maxlength="13" placeholder="without dashes" required>
+                                        <label for="cand_cnic_<?= $job['job_id'] ?>" class="form-label">Enter CNIC</label>
+                                        <input type="text" class="form-control" name="cand_cnic" id="cand_cnic_<?= $job['job_id'] ?>" pattern="\d{13}" maxlength="13" placeholder="Without dashes" required>
                                         <span id="cnicError_<?= $job['job_id'] ?>" class="text-danger"></span>
                                     </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Apply</button>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -104,49 +86,27 @@
                 </div>
             <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 </section>
 
 <script>
-
-
-
-    document.querySelectorAll("input[id^='cand_cnic_']").forEach(function(input) {
+    document.querySelectorAll("input[id^='cand_cnic_']").forEach(input => {
         input.addEventListener("input", function() {
-            var cnic = this.value;
-            var errorSpan = document.getElementById("cnicError_" + this.id.split("_")[2]);
-
-            if (!/^\d{13}$/.test(cnic)) {
-                errorSpan.textContent = "CNIC must be exactly 13 digits.";
-            } else {
-                errorSpan.textContent = "";
-            }
+            let cnic = this.value;
+            let errorSpan = document.getElementById("cnicError_" + this.id.split("_")[2]);
+            errorSpan.textContent = (/^\d{13}$/.test(cnic)) ? "" : "CNIC must be exactly 13 digits.";
         });
     });
-    // ajax for job requirements
+
     document.querySelectorAll(".apply-btn").forEach(button => {
         button.addEventListener("click", function() {
-            var jobId = this.getAttribute("data-job-id");
-            var requirementsElement = document.getElementById("requirements-" + jobId);
+            let jobId = this.getAttribute("data-job-id");
+            let requirementsElement = document.getElementById("requirements-" + jobId);
 
-            // Fetch job requirements via AJAX
             fetch("<?= base_url('/get-requirements/') ?>" + jobId)
                 .then(response => response.json())
                 .then(data => {
-                    
-                    let ul = document.createElement("ul");
-                    if (Object.keys(data).length > 0) {
-                        for (let key in data) {
-                            let li = document.createElement("li"); 
-                            li.textContent = data[key] ;
-                            ul.appendChild(li);
-                        }
-
-                        requirementsElement.innerHTML = "";
-                        requirementsElement.appendChild(ul);
-                    } else {
-                        requirementsElement.innerHTML = "No requirements available.";
-                    }
+                    requirementsElement.innerHTML = Object.keys(data).length > 0 ? Object.values(data).map(req => `<li class='list-group-item'>${req}</li>`).join('') : "No requirements available.";
                 })
                 .catch(error => {
                     requirementsElement.innerHTML = "Failed to load requirements.";
@@ -155,6 +115,5 @@
         });
     });
 </script>
-
 
 <?= $this->endSection() ?>

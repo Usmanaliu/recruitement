@@ -1,5 +1,4 @@
-<!-- app/Views/candidate_form.php -->
-<?= $this->extend('templates/base') ?> <!-- If you have a layout file -->
+<?= $this->extend('templates/base') ?>
 <?= $this->section('content') ?>
 
 <div class="container mt-5">
@@ -29,185 +28,93 @@
         <div class="card-body">
             <form method="post" action="<?= site_url('candidate-genInfo-save') ?>" id="candidateForm" onsubmit="disableButton()">
                 <?= csrf_field() ?>
-                <input type="hidden" name="application_id" value="<?= $application_id ?>">
+                <input type="hidden" name="application_id" value="<?= $application['application_id'] ?? '' ?>">
+
                 <div class="row">
-                    <!-- District -->
                     <div class="col-md-6 form-group">
                         <label for="district">District</label>
                         <select class="form-control" id="district" name="district" required>
                             <option value="">Select District</option>
                             <?php
-                            // List of Punjab districts
-                            $districts = [
-                                'Attock',
-                                'Bahawalnagar',
-                                'Bahawalpur',
-                                'Bhakkar',
-                                'Chakwal',
-                                'Chiniot',
-                                'Dera Ghazi Khan',
-                                'Faisalabad',
-                                'Gujranwala',
-                                'Gujrat',
-                                'Hafizabad',
-                                'Jhang',
-                                'Jhelum',
-                                'Kasur',
-                                'Khanewal',
-                                'Khushab',
-                                'Lahore',
-                                'Layyah',
-                                'Lodhran',
-                                'Mandi Bahauddin',
-                                'Mianwali',
-                                'Multan',
-                                'Muzaffargarh',
-                                'Narowal',
-                                'Nankana Sahib',
-                                'Okara',
-                                'Pakpattan',
-                                'Rahim Yar Khan',
-                                'Rajanpur',
-                                'Rawalpindi',
-                                'Sahiwal',
-                                'Sargodha',
-                                'Sheikhupura',
-                                'Sialkot',
-                                'Toba Tek Singh',
-                                'Vehari'
-                            ];
-
+                            $districts = ['Attock', 'Bahawalnagar', 'Bahawalpur', 'Bhakkar', 'Chakwal', 'Chiniot', 'Dera Ghazi Khan', 'Faisalabad', 'Gujranwala', 'Gujrat', 'Hafizabad', 'Jhang', 'Jhelum', 'Kasur', 'Khanewal', 'Khushab', 'Lahore', 'Layyah', 'Lodhran', 'Mandi Bahauddin', 'Mianwali', 'Multan', 'Muzaffargarh', 'Narowal', 'Nankana Sahib', 'Okara', 'Pakpattan', 'Rahim Yar Khan', 'Rajanpur', 'Rawalpindi', 'Sahiwal', 'Sargodha', 'Sheikhupura', 'Sialkot', 'Toba Tek Singh', 'Vehari'];
                             foreach ($districts as $district) : ?>
-                                <option value="<?= $district ?>" <?= old('district') == $district ? 'selected' : '' ?>>
+                                <option value="<?= $district ?>" <?= ($application['district_domicile'] ?? old('district')) == $district ? 'selected' : '' ?>>
                                     <?= $district ?>
                                 </option>
                             <?php endforeach; ?>
-                        </select><!-- Add district options here -->
-
-                        <?php if (isset($errors['district'])): ?>
-                            <div class="text-danger"><?= $errors['district'] ?></div>
-                        <?php endif; ?>
+                        </select>
                     </div>
                 </div>
-                <div class="row">
-                    <!-- Candidate Names -->
 
+                <div class="row">
                     <div class="col-md-4 form-group">
                         <label for="cand_name_eng">Candidate Name (English)</label>
-                        <input type="text" class="form-control" id="cand_name_eng" name="cand_name_eng" value="<?= old('cand_name_eng') ?>" required>
-                        <?php if (isset($errors['cand_name_eng'])): ?>
-                            <div class="text-danger"><?= $errors['cand_name_eng'] ?></div>
-                        <?php endif; ?>
+                        <input type="text" class="form-control" id="cand_name_eng" name="cand_name_eng" value="<?= $application['cand_name_eng'] ?? old('cand_name_eng') ?>" required>
                     </div>
 
                     <div class="col-md-4 form-group">
                         <label for="cand_name_urdu">Candidate Name (Urdu)</label>
-                        <input type="text" class="form-control rtl-direction" id="cand_name_urdu" name="cand_name_urdu" value="<?= old('cand_name_urdu') ?>" required>
-                        <?php if (isset($errors['cand_name_urdu'])): ?>
-                            <div class="text-danger"><?= $errors['cand_name_urdu'] ?></div>
-                        <?php endif; ?>
+                        <input type="text" class="form-control rtl-direction" id="cand_name_urdu" name="cand_name_urdu" value="<?= $application['cand_name_urdu'] ?? old('cand_name_urdu') ?>" required>
                     </div>
 
                     <div class="col-md-4 form-group">
-                        <label for="cand_gender">Select Gender</label>
+                        <label for="gender">Select Gender</label>
                         <select class="form-control" id="gender" name="gender" required>
                             <option value="">Select Gender</option>
-                            <?php
-                            $genders = [
-                                'Male',
-                                'Female',
-                                'Other',                               
-                            ];
-
+                            <?php $genders = ['Male', 'Female', 'Other'];
                             foreach ($genders as $gender) : ?>
-                                <option value="<?= $gender ?>" <?= old('gender') == $district ? 'selected' : '' ?>>
+                                <option value="<?= $gender ?>" <?= ($application['gender'] ?? old('gender')) == $gender ? 'selected' : '' ?>>
                                     <?= $gender ?>
                                 </option>
                             <?php endforeach; ?>
-                        </select><!-- Add district options here -->
-
-                        <?php if (isset($errors['district'])): ?>
-                            <div class="text-danger"><?= $errors['district'] ?></div>
-                        <?php endif; ?>
-
+                        </select>
                     </div>
                 </div>
 
                 <div class="row">
-                    <!-- Father's Information -->
-
                     <div class="col-md-4 form-group">
                         <label for="father_name_eng">Father's Name (English)</label>
-                        <input type="text" class="form-control" id="father_name_eng" name="father_name_eng" value="<?= old('father_name_eng') ?>" required>
-                        <?php if (isset($errors['father_name_eng'])): ?>
-                            <div class="text-danger"><?= $errors['father_name_eng'] ?></div>
-                        <?php endif; ?>
+                        <input type="text" class="form-control" id="father_name_eng" name="father_name_eng" value="<?= $application['father_name_eng'] ?? old('father_name_eng') ?>" required>
                     </div>
 
                     <div class="col-md-4 form-group">
                         <label for="father_name_urdu">Father's Name (Urdu)</label>
-                        <input type="text" class="form-control rtl-direction" id="father_name_urdu" name="father_name_urdu" value="<?= old('father_name_urdu') ?>" required>
-                        <?php if (isset($errors['father_name_urdu'])): ?>
-                            <div class="text-danger"><?= $errors['father_name_urdu'] ?></div>
-                        <?php endif; ?>
+                        <input type="text" class="form-control rtl-direction" id="father_name_urdu" name="father_name_urdu" value="<?= $application['father_name_urdu'] ?? old('father_name_urdu') ?>" required>
                     </div>
 
                     <div class="col-md-4 form-group">
                         <label for="father_occupation">Father's Occupation</label>
-                        <input type="text" class="form-control" id="father_occupation" name="father_occupation" value="<?= old('father_occupation') ?>" required>
-                        <?php if (isset($errors['father_occupation'])): ?>
-                            <div class="text-danger"><?= $errors['father_occupation'] ?></div>
-                        <?php endif; ?>
+                        <input type="text" class="form-control" id="father_occupation" name="father_occupation" value="<?= $application['father_occupation'] ?? old('father_occupation') ?>" required>
                     </div>
                 </div>
 
                 <div class="row">
-                    <!-- Personal Details -->
                     <div class="col-md-4 form-group">
                         <label for="religion">Religion</label>
-                        <input type="text" class="form-control" id="religion" name="religion" value="<?= old('religion') ?>" required>
-                        <?php if (isset($errors['religion'])): ?>
-                            <div class="text-danger"><?= $errors['religion'] ?></div>
-                        <?php endif; ?>
+                        <input type="text" class="form-control" id="religion" name="religion" value="<?= $application['religion'] ?? old('religion') ?>" required>
                     </div>
-
                     <div class="col-md-4 form-group">
                         <label for="cast">Cast</label>
-                        <input type="text" class="form-control" id="cast" name="cast" value="<?= old('cast') ?>" required>
-                        <?php if (isset($errors['cast'])): ?>
-                            <div class="text-danger"><?= $errors['cast'] ?></div>
-                        <?php endif; ?>
+                        <input type="text" class="form-control" id="religion" name="cast" value="<?= $application['cast'] ?? old('cast') ?>" required>
                     </div>
-
                     <div class="col-md-4 form-group">
                         <label for="dob">Date of Birth</label>
-                        <input type="date" class="form-control" id="dob" name="dob" value="<?= old('dob') ?>" required>
-                        <?php if (isset($errors['dob'])): ?>
-                            <div class="text-danger"><?= $errors['dob'] ?></div>
-                        <?php endif; ?>
+                        <input type="date" class="form-control" id="dob" name="dob" value="<?= $application['dob'] ?? old('dob') ?>" required>
                     </div>
                 </div>
 
                 <div class="row">
-                    <!-- Contact Information -->
                     <div class="col-md-6 form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?= old('email') ?>" placeholder="abc@xyz.com" required>
-                        <?php if (isset($errors['email'])): ?>
-                            <div class="text-danger"><?= $errors['email'] ?></div>
-                        <?php endif; ?>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $application['email'] ?? old('email') ?>" required>
                     </div>
 
                     <div class="col-md-6 form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" value="<?= old('phone') ?>" placeholder="03xxxxxxxxx" required>
-                        <?php if (isset($errors['phone'])): ?>
-                            <div class="text-danger"><?= $errors['phone'] ?></div>
-                        <?php endif; ?>
+                        <input type="tel" class="form-control" id="phone" name="phone" value="<?= $application['phone'] ?? old('phone') ?>" required>
                     </div>
                 </div>
 
-               
                 <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
                         <span id="buttonText">Save</span>
@@ -223,10 +130,7 @@
     function disableButton() {
         const btn = document.getElementById('submitBtn');
         const spinner = document.getElementById('buttonSpinner');
-        const btnText = document.getElementById('buttonText');
-
         btn.disabled = true;
-        
         spinner.classList.remove('d-none');
     }
 </script>

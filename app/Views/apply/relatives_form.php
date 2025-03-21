@@ -41,7 +41,16 @@
     <!-- Conditional Fields (Initially Hidden) -->
     <div id="relativeDetails" style="display: <?= old('relative_Police') == 1 ? 'block' : 'none' ?>;">
         <div class="row g-3">
-            <!-- Relationship -->
+        <!-- Relative Name -->
+        <div class="col-md-6">
+                <label class="form-label"> Relative Name *</label>
+                <input type="text" class="form-control <?= isset($errors['relative_name']) ? 'is-invalid' : '' ?>"
+                    name="relative_name" value="<?= old('relative_name') ?>">
+                <?php if (isset($errors['relative_name'])) : ?>
+                    <div class="invalid-feedback"><?= $errors['relative_name'] ?></div>
+                <?php endif; ?>
+            </div>    
+        <!-- Relationship -->
             <div class="col-md-6">
                 <label class="form-label">Relationship *</label>
                 <select class="form-select <?= isset($errors['relation_relative']) ? 'is-invalid' : '' ?>"
@@ -72,6 +81,20 @@
                     name="relative_belt_number" value="<?= old('relative_belt_number') ?>">
                 <?php if (isset($errors['relative_belt_number'])) : ?>
                     <div class="invalid-feedback"><?= $errors['relative_belt_number'] ?></div>
+                <?php endif; ?>
+            </div>
+            
+        <!-- job Status -->
+        <div class="col-md-6">
+                <label class="form-label">Job Status *</label>
+                <select class="form-select <?= isset($errors['relative_job_status']) ? 'is-invalid' : '' ?>"
+                    name="relative_job_status">
+                    <option value="">Select Relationship</option>
+                    <option value="Serving" <?= old('relative_job_status') == 'Seriving' ? 'selected' : '' ?>>Serving</option>
+                    <option value="Retired" <?= old('relative_job_status') == 'Retired' ? 'selected' : '' ?>>Retired</option>
+                </select>
+                <?php if (isset($errors['relative_job_status'])) : ?>
+                    <div class="invalid-feedback"><?= $errors['relative_job_status'] ?></div>
                 <?php endif; ?>
             </div>
 

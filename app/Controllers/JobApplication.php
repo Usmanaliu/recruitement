@@ -11,6 +11,7 @@ use App\Controllers\District;
 use CodeIgniter\Controller;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Contracts\Validation\Validator;
 use PhpParser\Node\Expr\FuncCall;
 
 class JobApplication extends Controller
@@ -266,7 +267,24 @@ class JobApplication extends Controller
         $model->update($applicationId, ['status' => 'submitted']);
         // Add any final validation logic
     }
-
+    function checkAge($dob, $minAge, $maxAge, $lastDate) {
+        $dob = new \DateTime($dob); // Convert string DOB to DateTime object
+        $today = new \DateTime($lastDate);   // Get current date
+    
+        // Calculate the minimum and maximum allowed birth dates
+        $minDate = (clone $today)->modify("-{$maxAge} years -1 day"); // Max age limit (25 years + 1 day)
+        $maxDate = (clone $today)->modify("-{$minAge} years"); // Min age limit (18 years)
+    
+        if ($dob > $maxDate) {
+            return "Underage";
+        } elseif ($dob <= $minDate) {
+            return "Overage";
+        } else {
+            return "Eligible";
+        }
+    }
+    
+    
 
 
     public function genInfoSave()
@@ -275,9 +293,12 @@ class JobApplication extends Controller
         helper('form');
 
         $applicationId = $this->request->getPost('application_id');
-
+        
         $model = $this->applicationModel;
+        $application = $model->find($applicationId);
         $jobmodel = $this->jobModel;
+        $job = $jobmodel->find($application['job_id']);
+        $requirement = $this->requirementModel->where('job_id',$application['job_id'])->first();
 
         // Validate data
         $rules = [
@@ -295,6 +316,8 @@ class JobApplication extends Controller
 
         ];
 
+        $status = ($this->checkAge($this->request->getPost('dob'),$requirement['age_min'],$requirement['age_max'],$job['closing_date']) === 'Eligible') ? 'Eligible': 'Rejected';
+        $remarks = $this->checkAge($this->request->getPost('dob'),$requirement['age_min'],$requirement['age_max'],$job['closing_date']);
         if ($this->validate($rules)) {
             // Get form data
             $data = [
@@ -310,13 +333,14 @@ class JobApplication extends Controller
                 'cast' => $this->request->getPost('cast'),
                 'dob' => $this->request->getPost('dob'),
                 'phone' => $this->request->getPost('phone'),
-                // Add all other fields
+                'status' => $status,
+                'remarks' => $remarks
             ];
             
             // Insert into database
             if ($model->update($applicationId, $data)) {
                 // Redirect back with success 
-                $application = $model->find($applicationId);
+                
 
                 $appData = [
                     'job' => $jobmodel->find($application['job_id']),
@@ -343,9 +367,10 @@ class JobApplication extends Controller
         } else {
             $application_id = $Getapplication_id;
         }
-
+        
         $data = [
-            'application_id' => $application_id,
+            'application' => $this->applicationModel->find($application_id),
+            'application_id' =>$application_id
         ];
         return view('apply/gen_info_form', $data);
     }
@@ -666,7 +691,8 @@ class JobApplication extends Controller
         } else {
             return redirect()->back()->with('errors', $this->validator->getErrors());
         }
-            // Ensure data is not empty before updating
+            // Ensure data is not empty before 
+            
             if (!empty(array_filter($addData))) {
                 if ($this->applicationModel->update($application_id, $addData)) {
                     log_message('info','message',$addData);
@@ -683,6 +709,55 @@ class JobApplication extends Controller
         return view('apply/Address_form', $data);
     }
 
+}
+
+public function testimonial($application_id){
+    helper('form');
+       
+    if($this->request->getMethod() === 'POST'){
+        $application_id = $this->request->getPost('application_id');
+        $rules = [
+            'testimonial1_name' =>      'required',             
+	        'testimonial1_father' => 'required',
+            'testimonial1_address' => 'required',
+            'testimonial1_phone' => 'required',
+            'testimonial2_name' =>  'required',
+            'testimonial2_father' =>  'required',
+            'testimonial2_address' =>  'required',
+            'testimonial2_phone' =>  'required',
+        ];
+        if(!$this->validate($rules)){
+            return redirect()->back()->with('errors', $this->validator->getErrors())->withInput();
+        }else{
+            $data = [
+            'testimonial1_name' =>  $this->request->getPost('testimonial1_name'),
+	        'testimonial1_father' => $this->request->getPost('testimonial1_father'),
+            'testimonial1_address' => $this->request->getPost('testimonial1_address'),
+            'testimonial1_phone' => $this->request->getPost('testimonial1_phone'),
+            'testimonial2_name' =>  $this->request->getPost('testimonial2_name'),
+            'testimonial2_father' =>  $this->request->getPost('testimonial2_father'),
+            'testimonial2_address' =>  $this->request->getPost('testimonial2_address'),
+            'testimonial2_phone' =>  $this->request->getPost('testimonial2_phone'),
+                
+            ];
+            if(!empty(array_filter($data))){
+                $data = array_filter($data, fn($value) => !empty($value));
+                log_message('debug', 'Application ID: ' . print_r($application_id, true));
+log_message('debug', 'Data to update: ' . print_r($data, true));
+
+            if($this->applicationModel->update($application_id,$data)){
+                return redirect()->to('/application-page?application_id=' . $application_id);
+            }else{
+                  return redirect()->back()->with('error', 'Failed to update information.')->withInput();
+            }
+        }else{
+            return redirect()->back()->with('errorData', 'no data.')->withInput();
+        }
+        }
+    }
+
+
+    return view('apply/testimonial_form',['application_id' => $application_id]);
 }
 
 }

@@ -53,8 +53,7 @@ $routes->match(['get','post'],'/addressForm/(:num)','JobApplication::AddInfo/$1'
 $routes->get('candidates/edit', 'Candidates::edit');
 $routes->get('candidates/getPoliceStations', 'District::getPoliceStations');
 $routes->post('candidates/update', 'Candidates::update');
-
-
+$routes->match(['get','post'],'/testimonialinfo/(:num)','JobApplication::testimonial/$1');
 
 $routes->match(['get','post'],'SearchApplication/(:num)','JobApplication::index/$1');
 
