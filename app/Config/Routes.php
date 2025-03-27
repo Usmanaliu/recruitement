@@ -13,7 +13,7 @@ use CodeIgniter\Router\RouteCollection;
 
 
 
-$routes->get('/', 'Home::index');
+$routes->get('/', 'JobApplication::vacancies');
 $routes->add('/application', 'Application::index');
 $routes->get('/jobapplications', 'JobApplication::index');
 $routes->get('/jobapplication/pdf/(:num)', 'JobApplication::generatePDF/$1');
@@ -25,7 +25,7 @@ $routes->match(['get','post'], '/apply/(:num)', 'JobApplication::apply/$1');
 
 
 $routes->post('/save-personal-info', 'JobApplication::savePersonalInfo');
-$routes->get('/check-completion/(:num)', 'JobApplication::checkCompletion/$1');
+$routes->get('/forcompletion/(:num)', 'JobApplication::checkCompletion/$1');
 $routes->post('/submit-application/(:num)', 'JobApplication::submitApplication/$1');
 
 
@@ -60,4 +60,18 @@ $routes->match(['get','post'],'SearchApplication/(:num)','JobApplication::index/
 
 $routes->get('/dowloadApplication/(:num)','JobApplication::download/$1');
 
-$routes->match(['get','post'],'forcompletion/(:num)','JobApplication::checkCompletion/$1');
+
+
+
+
+// admin routes
+
+$routes->group('joinpunjabpolice/admin', function ($routes) {
+    $routes->get('dashboard', 'AdminController::dashboard');
+    $routes->get('users', 'AdminController::users');
+    $routes->get('settings', 'AdminController::settings');
+    $routes->get('create-job','AdminController::createJob');
+    $routes->match(['GET','POST'],'create-user','AdminController::createUser');
+    $routes->match(['GET','POST'],'login-for-admin','AdminController::login');
+});
+

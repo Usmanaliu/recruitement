@@ -24,7 +24,8 @@
   
   
   <link rel="stylesheet" href="<?= base_url('assets/css/styles.css') ?>">
-  <link rel="icon" type="image/x-icon" href="<?= base_url('assets/images/logo2.png') ?>">
+  <link rel="icon" type="image/x-icon" href="<?= base_url('assets/images/logo.png') ?>">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
 
 </head>
 
@@ -36,6 +37,7 @@
   <div id="web-loader" class="loader">
     <img src="<?= base_url('assets/images/logo.png') ?>" alt="Logo" class="spinner">
   </div>
+
 
   <div>
     <?= $this->renderSection('content');  ?>
@@ -51,8 +53,10 @@
 
 
 
-    const buttonsFrG = document.querySelectorAll('.btn-ldr');
 
+
+    const buttonsFrG = document.querySelectorAll('.btn-ldr');
+   
     // Function to handle the button click event
     buttonsFrG.forEach(button => {
       // Create an image element
@@ -80,9 +84,9 @@
         // Optionally, remove the loading state and reset after a few seconds (e.g., 3 seconds)
         setTimeout(() => {
           button.classList.remove('loading'); // Stop the spinning animation
-          button.textContent = 'Click me'; // Reset button text to original
+          // Reset button text to original
           // Keep the image (optional, you can remove it if you want)
-        }, 3000); // Adjust the duration as needed
+        }, 1000); // Adjust the duration as needed
       });
     });
 

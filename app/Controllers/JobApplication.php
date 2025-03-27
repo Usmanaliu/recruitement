@@ -11,6 +11,10 @@ use App\Controllers\District;
 use CodeIgniter\Controller;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+
+// use setasign\Fpdi\Tcpdf\Tcpdf;
+use TCPDF;
+
 use Illuminate\Contracts\Validation\Validator;
 use PhpParser\Node\Expr\FuncCall;
 
@@ -50,13 +54,28 @@ class JobApplication extends Controller
         
         return view('getApplication/application', $data);
     }
-
-    public function download($application_id){
+    public function download($application_id) {
+        // Clean output buffer
+        ob_start();
+    
         $application = $this->applicationModel->find($application_id);
-        $data['application'] = $application;
-        $data['age'] = $this->getAge($application['dob']);
-        $data['job'] = $this->jobModel->find($application['job_id']);
-         return view('job_applications/application_copy',$data);
+        $data = [
+            'application' => $application,
+            'age' => $this->getAge($application['dob']),
+            'job' => $this->jobModel->find($application['job_id'])
+        ];
+        
+        return view('job_applications/application_copy', $data);
+        // $html = ob_get_clean();
+    
+        // // Remove extra whitespace
+        // $html = preg_replace('/>\s+</', '><', $html);
+        
+        // $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        // $pdf->SetCreator('Punjab Police');
+        // $pdf->AddPage();
+        // $pdf->writeHTML($html, true, false, true, false, '');
+        // $pdf->Output('application_form.pdf', 'D');
     }
 
     private function getAge($dob)

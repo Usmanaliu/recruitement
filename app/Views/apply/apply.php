@@ -190,64 +190,6 @@
     </section>
 </div>
 
-<style>
-    .profile-pic-container {
-        position: relative;
-        width: 200px;
-        margin: 0 auto;
-    }
-
-    .profile-pic-wrapper {
-        width: 200px;
-        height: 200px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .profile-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .upload-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .profile-pic-wrapper:hover .upload-overlay {
-        opacity: 1;
-    }
-
-    .step-item {
-        border-bottom: 1px solid #eee;
-        transition: background-color 0.2s ease;
-    }
-
-    .step-item:hover {
-        background-color: #f8f9fa;
-    }
-
-    .application-container {
-        max-width: 1200px;
-        margin: 2rem auto;
-    }
-
-    .requirements-list small i {
-        margin-right: 8px;
-    }
-</style>
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const submitButton = document.getElementById('submitButton');
