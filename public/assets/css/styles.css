@@ -446,3 +446,16 @@ width: 200px; /* Ensures at least 100px for 3rd column */
   background: #343a40;
   margin: 0 !important;
 }
+
+
+
+.bg-primary-gradient {
+  background: linear-gradient(135deg, #2c3e50, #3498db);
+}
+.table-hover tbody tr:hover {
+  background-color: rgba(52, 152, 219, 0.1) !important;
+}
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+}
