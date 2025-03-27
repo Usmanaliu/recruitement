@@ -1,3 +1,6 @@
+<?php  
+$user = getLoggedInUser();
+?>
 <!doctype html>
 <html lang="en">
 
@@ -26,7 +29,8 @@
   <link rel="stylesheet" href="<?= base_url('assets/css/styles.css') ?>">
   <link rel="icon" type="image/x-icon" href="<?= base_url('assets/images/logo.png') ?>">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-  
+    
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
@@ -43,10 +47,7 @@
     <div id="web-loader" class="loader">
       <img src="<?= base_url('assets/images/logo.png') ?>" alt="Logo" class="spinner">
     </div>
-    <!-- navBar -->
-    <?php
-    $uri = service('uri'); // Get current URI
-    ?>
+   
     <div class="sidebar" id="sidebar">
       <div class="logo-sidBar mb-2">
         <a href="#">
@@ -66,14 +67,24 @@ $uri = service('uri'); // Get current URI
    <i class="fas fa-home"></i> <span>Dashboard</span>
 </a>
 
-<a href="<?= base_url('profile') ?>" 
-   class="nav-link <?= ($uri->getSegment(1) == 'profile') ? 'active' : '' ?>">
-   <i class="fas fa-user"></i> <span>Profile</span>
+<a href="<?= base_url('joinpunjabpolice/admin/candidates-list') ?>" 
+   class="nav-link <?= ($uri->getSegment(2) == 'candidates-list') ? 'active' : '' ?>">
+   <i class="fa-solid fa-list-ol"></i> <span>Candiates List</span>
 </a>
 
 <a href="<?= base_url('joinpunjabpolice/admin/create-user') ?>" 
    class="nav-link <?= ($uri->getSegment(3) == 'create-user') ? 'active' : '' ?>">
    <i class="fa-solid fa-user-plus"></i> <span>Create New User</span>
+</a>
+
+<a href="<?= base_url('joinpunjabpolice/admin/create-job') ?>" 
+   class="nav-link <?= ($uri->getSegment(3) == 'create-job') ? 'active' : '' ?>">
+   <i class="fas fa-user-tie"></i> <span>Create New Job</span>
+</a>
+
+<a href="<?= base_url('joinpunjabpolice/admin/users-list') ?>" 
+   class="nav-link <?= ($uri->getSegment(3) == 'users-list') ? 'active' : '' ?>">
+   <i class="fas fa-user-tie"></i> <span>User List</span>
 </a>
 
       </nav>
@@ -99,14 +110,14 @@ $uri = service('uri'); // Get current URI
   <!-- Right: User Info -->
   <div class="dropdown">
     <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="<?= base_url('assets/images/user.png') ?>" alt="User Avatar" class="rounded-circle" width="30" height="30">
-      <span class="ms-2"><?= session('username') ?></span>
+      <!-- <img src="<?= base_url('assets/images/user.png') ?>" alt="User Avatar" class="rounded-circle" width="30" height="30"> -->
+      <span class="ms-2"><?= $user['user_name'] ?></span>
     </button>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
       <li><a class="dropdown-item" href="<?= base_url('profile') ?>"><i class="fas fa-user"></i> Profile</a></li>
       <li><a class="dropdown-item" href="<?= base_url('settings') ?>"><i class="fas fa-cog"></i> Settings</a></li>
       <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item text-danger" href="<?= base_url('logout') ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a class="dropdown-item text-danger" href="<?= base_url('joinpunjabpolice/admin/logout') ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 </nav>
@@ -195,7 +206,8 @@ $uri = service('uri'); // Get current URI
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

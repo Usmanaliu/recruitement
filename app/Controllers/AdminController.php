@@ -21,6 +21,62 @@ class AdminController extends BaseController
         //
     }
 
+
+    public function login()
+    {
+       
+        if ($this->request->getMethod() === "POST") {
+            $session = session();
+            $cnic = $this->request->getPost('cnic');
+            $email = $this->request->getPost('email');
+            $password = $this->request->getPost('password');
+        
+            // Validate input
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'cnic'     => 'required|exact_length[13]|numeric', // CNIC must be 13 digits
+                'email'    => 'required|valid_email',
+                'password' => 'required|min_length[6]'
+            ]);
+        
+            if (!$validation->withRequest($this->request)->run()) {
+                return redirect()->back()->withInput()->with('validation', $validation);
+            }
+        
+            // Check user in the database
+            $user = $this->userModel->where('cnic', $cnic)->where('email', $email)->first();
+        
+            if ($user) {
+
+              
+                if (password_verify($password, $user['password'])) {
+                    // Regenerate session to prevent fixation and clear old data
+                    $session->regenerate(true);
+        
+                    $sessionData = [
+                        'id'        => $user['user_id'],
+                        'isLoggedIn' => true
+                    ];
+                    
+                    $session->set($sessionData);
+                    return redirect()->to('joinpunjabpolice/admin/create-user');
+                } else {
+                    return redirect()->to(current_url())->with('error', 'Invalid password');
+                }
+            } else {
+                return redirect()->to(current_url())->with('error', 'User not found');
+            }
+        }
+        
+        return view('user/login');
+    }        
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('joinpunjabpolice/admin/login-for-admin');
+    }
+
+
     public function createJob()
     {
         return view('user/create_job');
@@ -28,7 +84,7 @@ class AdminController extends BaseController
 
     public function createUser()
     {
-        helper('form');
+      
 
         if ($this->request->getMethod() === 'POST') {
             $rules = [
@@ -111,58 +167,63 @@ class AdminController extends BaseController
     }
 
 
-    public function login()
-    {
-        helper('form');
+    public function candList(){
 
-        if ($this->request->getMethod() === "POST") {
-            $session = session();
-            $cnic = $this->request->getPost('cnic');
-            $email = $this->request->getPost('email');
-            $password = $this->request->getPost('password');
-        
-            // Validate input
-            $validation = \Config\Services::validation();
-            $validation->setRules([
-                'cnic'     => 'required|exact_length[13]|numeric', // CNIC must be 13 digits
-                'email'    => 'required|valid_email',
-                'password' => 'required|min_length[6]'
-            ]);
-        
-            if (!$validation->withRequest($this->request)->run()) {
-                return redirect()->back()->withInput()->with('validation', $validation);
-            }
-        
-            // Check user in the database
-            $user = $this->userModel->where('cnic', $cnic)->where('email', $email)->first();
-        
-            if ($user) {
-                if (password_verify($password, $user['password'])) {
-                    // Regenerate session to prevent fixation and clear old data
-                    $session->regenerate(true);
-        
-                    $sessionData = [
-                        'id'        => $user['user_id'],
-                        'cnic'      => $user['cnic'],
-                        'email'     => $user['email'],
-                        'isLoggedIn' => true
-                    ];
-                    
-                    $session->set($sessionData);
-                    return redirect()->to('joinpunjabpolice/admin/create-user');
-                } else {
-                    return redirect()->to(current_url())->with('error', 'Invalid password');
-                }
-            } else {
-                return redirect()->to(current_url())->with('error', 'User not found');
-            }
-        }
-        
-        return view('user/login');
-    }        
-    public function logout()
-    {
-        session()->destroy();
-        return redirect()->to('/admin/login-for-admin');
+        $data = [];
+        return view('user/candidates_list',$data);
     }
+
+
+    public function usersList(){
+        return view('user/users_list');
+    }
+
+    public function fetchUsers()
+    {
+        $request = service('request');
+
+        // DataTables parameters
+        $draw = $request->getGet('draw');
+        $start = (int) $request->getGet('start');
+        $length = (int) $request->getGet('length');
+        $searchValue = $request->getGet('search')['value'];
+
+        
+
+        // Search filter
+        if (!empty($searchValue)) {
+            $this->userModel->like('user_name', $searchValue);
+            $this->userModel->orLike('email', $searchValue);
+            $this->userModel->orLike('cnic', $searchValue);
+        }
+
+        // Get filtered data
+        $users = $this->userModel->limit($length, $start)->find();
+
+        // Total records
+        $totalRecords = $this->userModel->countAll();
+        $totalFiltered = $this->userModel->like('user_name', $searchValue)->orLike('email', $searchValue)->countAllResults();
+
+        // Format response
+        $data = [];
+        foreach ($users as $user) {
+            $data[] = [
+                $user['user_id'],
+                $user['user_name'],
+                $user['email'],
+                $user['cnic'],
+                $user['phone'],
+                $user['role'],
+                $user['status']
+            ];
+        }
+
+        return $this->response->setJSON([
+            "draw" => intval($draw),
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalFiltered,
+            "data" => $data
+        ]);
+    }
+   
 }
