@@ -120,11 +120,11 @@ body {
 }
 
 .invalid-feedback {
-  color: red;
+  color: #DF2935;
   font-size: 0.875em;
 }
 .is-invalid {
-  border-color: red;
+  border-color: #DF2935;
 }
 
 .loader {
@@ -436,7 +436,7 @@ width: 200px; /* Ensures at least 100px for 3rd column */
 }
 
 .nav-link.active {
-  background: #007bff;
+  background: #DF2935;
   color: white;
   border-radius: 5px;
 }
@@ -450,7 +450,7 @@ width: 200px; /* Ensures at least 100px for 3rd column */
 
 
 .bg-primary-gradient {
-  background: linear-gradient(135deg, #2c3e50, #3498db);
+  background: linear-gradient(135deg, #224970, #ec4c57);
 }
 .table-hover tbody tr:hover {
   background-color: rgba(52, 152, 219, 0.1) !important;
@@ -458,4 +458,65 @@ width: 200px; /* Ensures at least 100px for 3rd column */
 .card {
   border-radius: 1rem;
   overflow: hidden;
+}
+
+.frm_search{
+  align-items: center; /* Prevent stretching */
+    gap: 10px;
+}
+
+
+
+.jobVeiw .job-header {
+  border-left: 4px solid var(--bs-primary);
+  transition: all 0.3s ease;
+}
+
+.jobVeiw .card-header {
+  border-radius: 0 !important;
+}
+
+.badge {
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+dl.row dt {
+  font-weight: 500;
+}
+
+dl.row dd {
+  font-weight: 400;
+}
+
+.jobVeiw .card {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.primary_color{
+  color: #DF2935;
+}
+.secondary_color{
+  color: #343a40;
+}
+.btn-primary{
+  background-color: #DF2935 !important;
+}
+.btn-secondary{
+  background-color: #343a40 !important;
+}
+.btn-info{
+  background-color: #DF2935 !important;
+  color:#fff !important;
+  border: 1px solid #DF2935 !important;
+}
+.bg-primary{
+  background-color: #DF2935 !important;
+
+}
+.bg-info{
+  background-color: #DF2935 !important;
+
+  
 }

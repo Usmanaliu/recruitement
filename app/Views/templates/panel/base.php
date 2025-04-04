@@ -1,4 +1,4 @@
-<?php  
+<?php
 $user = getLoggedInUser();
 ?>
 <!doctype html>
@@ -26,10 +26,13 @@ $user = getLoggedInUser();
 
 
 
+
+
+
   <link rel="stylesheet" href="<?= base_url('assets/css/styles.css') ?>">
   <link rel="icon" type="image/x-icon" href="<?= base_url('assets/images/logo.png') ?>">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-    
+
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -47,7 +50,7 @@ $user = getLoggedInUser();
     <div id="web-loader" class="loader">
       <img src="<?= base_url('assets/images/logo.png') ?>" alt="Logo" class="spinner">
     </div>
-   
+
     <div class="sidebar" id="sidebar">
       <div class="logo-sidBar mb-2">
         <a href="#">
@@ -58,69 +61,79 @@ $user = getLoggedInUser();
         <i class="fas fa-bars"></i>
       </button> -->
       <nav class="nav flex-column">
-      <?php
-$uri = service('uri'); // Get current URI
-?>
+        <?php
+        $uri = service('uri'); // Get current URI
+        ?>
 
-<a href="<?= base_url('dashboard') ?>" 
-   class="nav-link <?= ($uri->getSegment(1) == 'dashboard') ? 'active' : '' ?>">
-   <i class="fas fa-home"></i> <span>Dashboard</span>
-</a>
+        <a href="<?= base_url('joinpunjabpolice/admin/dashboard') ?>"
+          class="nav-link <?= ($uri->getSegment(1) == 'dashboard') ? 'active' : '' ?>">
+          <i class="fas fa-home"></i> <span>Dashboard</span>
+        </a>
 
-<a href="<?= base_url('joinpunjabpolice/admin/candidates-list') ?>" 
-   class="nav-link <?= ($uri->getSegment(2) == 'candidates-list') ? 'active' : '' ?>">
-   <i class="fa-solid fa-list-ol"></i> <span>Candiates List</span>
-</a>
+        <a href="<?= base_url('joinpunjabpolice/admin/candidates-list') ?>"
+          class="nav-link <?= ($uri->getSegment(3) == 'candidates-list') ? 'active' : '' ?>">
+          <i class="fa-solid fa-list-ol"></i> <span>Candiates List</span>
+        </a>
 
-<a href="<?= base_url('joinpunjabpolice/admin/create-user') ?>" 
-   class="nav-link <?= ($uri->getSegment(3) == 'create-user') ? 'active' : '' ?>">
-   <i class="fa-solid fa-user-plus"></i> <span>Create New User</span>
-</a>
+        <a href="<?= base_url('joinpunjabpolice/admin/create-user') ?>"
+          class="nav-link <?= ($uri->getSegment(3) == 'create-user') ? 'active' : '' ?>">
+          <i class="fa-solid fa-user-plus"></i> <span>Create New User</span>
+        </a>
 
-<a href="<?= base_url('joinpunjabpolice/admin/create-job') ?>" 
-   class="nav-link <?= ($uri->getSegment(3) == 'create-job') ? 'active' : '' ?>">
-   <i class="fas fa-user-tie"></i> <span>Create New Job</span>
-</a>
+        <a href="<?= base_url('joinpunjabpolice/admin/users-list') ?>"
+          class="nav-link <?= ($uri->getSegment(3) == 'users-list') ? 'active' : '' ?>">
+          <i class="fas fa-user-tie"></i> <span>User List</span>
+        </a>
 
-<a href="<?= base_url('joinpunjabpolice/admin/users-list') ?>" 
-   class="nav-link <?= ($uri->getSegment(3) == 'users-list') ? 'active' : '' ?>">
-   <i class="fas fa-user-tie"></i> <span>User List</span>
-</a>
+
+        <a href="<?= base_url('joinpunjabpolice/admin/create-job') ?>"
+          class="nav-link <?= ($uri->getSegment(3) == 'create-job') ? 'active' : '' ?>">
+          <i class="fas fa-user-tie"></i> <span>Create New Job</span>
+        </a>
+        <a href="<?= base_url('joinpunjabpolice/admin/job-list') ?>"
+          class="nav-link <?= ($uri->getSegment(3) == 'job-list') ? 'active' : '' ?>">
+          <i class="fas fa-user-tie"></i> <span>Vacancies</span>
+        </a>
 
       </nav>
     </div>
 
 
     <div class="content" id="content">
-      
-<!-- Top Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light navBAR shadow-sm px-3">
-  <!-- Left: Sidebar Toggle Button -->
-  <button class="btn btn-outline-secondary me-2" onclick="toggleSidebar()">
-    <i class="fas fa-bars"></i>
-  </button>
 
-  <!-- Center: Search Bar -->
-  <form class="d-flex me-auto" action="<?= base_url('search') ?>" method="GET">
-    <input class="form-control me-2" type="search" name="query" placeholder="Search..." aria-label="Search">
-    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
-  </form>
+      <!-- Top Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light navBAR shadow-sm px-3">
+        <!-- Left: Sidebar Toggle Button -->
+        <button class="btn btn-outline-secondary me-2" onclick="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
 
-  
-  <!-- Right: User Info -->
-  <div class="dropdown">
-    <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      <!-- <img src="<?= base_url('assets/images/user.png') ?>" alt="User Avatar" class="rounded-circle" width="30" height="30"> -->
-      <span class="ms-2"><?= $user['user_name'] ?></span>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-      <li><a class="dropdown-item" href="<?= base_url('profile') ?>"><i class="fas fa-user"></i> Profile</a></li>
-      <li><a class="dropdown-item" href="<?= base_url('settings') ?>"><i class="fas fa-cog"></i> Settings</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item text-danger" href="<?= base_url('joinpunjabpolice/admin/logout') ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
-  </div>
-</nav>
+        <!-- Center: Search Bar -->
+        <div class="me-auto">
+
+          <form class="d-flex frm_search" action="<?= base_url('search') ?>" method="GET">
+            <input class="form-control me-2" type="search" name="query" placeholder="Search..." aria-label="Search">
+            
+          </form>
+        </div>
+
+
+        <!-- Right: User Info -->
+        <div class="dropdown">
+          <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <!-- <img src="<?= base_url('assets/images/user.png') ?>" alt="User Avatar" class="rounded-circle" width="30" height="30"> -->
+            <span class="ms-2"><?= $user['user_name'] ?></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="<?= base_url('profile') ?>"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('settings') ?>"><i class="fas fa-cog"></i> Settings</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-danger" href="<?= base_url('joinpunjabpolice/admin/logout') ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          </ul>
+        </div>
+      </nav>
       <?= $this->renderSection('content'); ?>
     </div>
   </div>
@@ -207,7 +220,7 @@ $uri = service('uri'); // Get current URI
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

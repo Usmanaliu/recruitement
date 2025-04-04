@@ -115,14 +115,18 @@ class JobApplication extends Controller
     public function vacancies()
     {
 
-
-        $jobs = $this->jobModel->findAll();
-
-        $data = [
-            'jobs' => $jobs,
-        ];
-
+        $data['jobs'] = $this->jobModel->select('jobs.*, job_requirements.*')
+                                     ->join('job_requirements', 'jobs.job_id = job_requirements.job_id')
+                                     ->findAll();
         return view('apply/vacancies', $data);
+
+        // $jobs = $this->jobModel->findAll();
+
+        // $data = [
+        //     'jobs' => $jobs,
+        // ];
+
+        // return view('apply/vacancies', $data);
     }
 
 

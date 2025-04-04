@@ -72,8 +72,10 @@ $routes->group('joinpunjabpolice/admin',['filter'=> 'auth'], function ($routes) 
     $routes->get('users-list', 'AdminController::usersList');
     $routes->match(['get','post'],'users', 'AdminController::fetchUsers'); // API for DataTables
     $routes->get('settings', 'AdminController::settings');
-    $routes->get('create-job', 'AdminController::createJob');
+    $routes->match(['get','post'],'create-job', 'AdminController::createJob');
+    $routes->match(['get','post'],'job-list', 'AdminController::JobList');
     $routes->get('candidates-list', 'AdminController::candList');
+    $routes->match(['get','post'],'candidates', 'AdminController::fetchCandidates'); // API for DataTables
     $routes->get('logout', 'AdminController::logout');
     $routes->match(['GET', 'POST'], 'create-user', 'AdminController::createUser');
 });

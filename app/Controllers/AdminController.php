@@ -5,16 +5,25 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UserModel;
+use App\Models\JobsModel;
+use App\Models\ReqModel;
+use App\Models\JobApplicationModel;
 use PhpParser\Node\Expr\FuncCall;
 
 class AdminController extends BaseController
 {
     protected $userModel;
-
+    protected $applicationModel;
+    protected $jobModel;
+    protected $requiremetsModel;
+    protected $educationModel;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->applicationModel = new JobApplicationModel();
+        $this->jobModel = new JobsModel();
+        $this->requiremetsModel = new ReqModel();
     }
     public function index()
     {
@@ -24,13 +33,13 @@ class AdminController extends BaseController
 
     public function login()
     {
-       
+
         if ($this->request->getMethod() === "POST") {
             $session = session();
             $cnic = $this->request->getPost('cnic');
             $email = $this->request->getPost('email');
             $password = $this->request->getPost('password');
-        
+
             // Validate input
             $validation = \Config\Services::validation();
             $validation->setRules([
@@ -38,26 +47,26 @@ class AdminController extends BaseController
                 'email'    => 'required|valid_email',
                 'password' => 'required|min_length[6]'
             ]);
-        
+
             if (!$validation->withRequest($this->request)->run()) {
                 return redirect()->back()->withInput()->with('validation', $validation);
             }
-        
+
             // Check user in the database
             $user = $this->userModel->where('cnic', $cnic)->where('email', $email)->first();
-        
+
             if ($user) {
 
-              
+
                 if (password_verify($password, $user['password'])) {
                     // Regenerate session to prevent fixation and clear old data
                     $session->regenerate(true);
-        
+
                     $sessionData = [
                         'id'        => $user['user_id'],
                         'isLoggedIn' => true
                     ];
-                    
+
                     $session->set($sessionData);
                     return redirect()->to('joinpunjabpolice/admin/create-user');
                 } else {
@@ -67,9 +76,9 @@ class AdminController extends BaseController
                 return redirect()->to(current_url())->with('error', 'User not found');
             }
         }
-        
+
         return view('user/login');
-    }        
+    }
     public function logout()
     {
         session()->destroy();
@@ -79,12 +88,108 @@ class AdminController extends BaseController
 
     public function createJob()
     {
+        if ($this->request->getMethod() === "POST") {
+            $rules = [
+                'job_title' => [
+                    'rules'  => 'required|max_length[255]',
+                    'errors' => [
+                        'required'   => 'Job Title is required.',
+                        'max_length' => 'Job Title cannot exceed 255 characters.'
+                    ]
+                ],
+                'job_type' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Job Type is required.'
+                    ]
+                ],
+                'job_scale' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Job Scale is required.'
+                    ]
+                ],
+                'requirements' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => ' required.'
+                    ]
+                ],
+                'job_district' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'district is required.'
+                    ]
+                ],
+                'start_date' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'start date is required.'
+                    ]
+                ],
+                'closing_date' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'closing data is required.'
+                    ]
+                ],
+                // Add more validation rules as needed
+            ];
+
+            if (!$this->validate($rules)) {
+                return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+            } else {
+                $jobData = [
+                    'job_title' => $this->request->getPost('job_title'),
+                    'job_type' => $this->request->getPost('job_type'),
+                    'job_scale' => $this->request->getPost('job_scale'),
+                    'job_district' => $this->request->getPost('job_district'),
+                    'requirements' => $this->request->getPost('requirements'),
+                    'start_date' => $this->request->getPost('start_date'),
+                    'closing_date' => $this->request->getPost('closing_date')
+                ];
+
+                // Save to database
+                if ($this->jobModel->save($jobData)) {
+                    $jobId = $this->jobModel->insertID();
+                    $reqData = [
+                        'job_id' => $jobId,
+                        'education' => $this->request->getPost('education'),
+                        'age_min' => $this->request->getPost('age_min'),
+                        'age_max' => $this->request->getPost('age_max'),
+                        'height_male' => $this->request->getPost('height_male'),
+                        'height_female' => $this->request->getPost('height_female'),
+                        'chest' => $this->request->getPost('chest'),
+                        'chest_expended' => $this->request->getPost('chest_expended'),
+                        'running_male' => $this->request->getPost('running_male'),
+                        'running_female' => $this->request->getPost('running_female'),
+                        'running_duration_male' => $this->request->getPost('running_duration_male'),
+                        'running_duration_female' => $this->request->getPost('running_duration_female'),
+                    ];
+                    // Save to database
+                    if (!$this->requiremetsModel->save($reqData)) {
+                        return redirect()->back()->withInput()->with('errors', $this->requiremetsModel->errors());
+                    }
+
+                    return redirect()->to(current_url())->with('success', 'Job created successfully!');
+                }
+            }
+        }
         return view('user/create_job');
     }
+    public function JobList()
+    {
+        
+        $data['job_list'] = $this->jobModel->select('jobs.*, job_requirements.*')
+                                     ->join('job_requirements', 'jobs.job_id = job_requirements.job_id')
+                                     ->findAll();
+        return view('user/job_list', $data);
+    }
+
 
     public function createUser()
     {
-      
+
 
         if ($this->request->getMethod() === 'POST') {
             $rules = [
@@ -167,14 +272,79 @@ class AdminController extends BaseController
     }
 
 
-    public function candList(){
+    public function candList()
+    {
 
         $data = [];
-        return view('user/candidates_list',$data);
+        return view('user/candidates_list', $data);
+    }
+
+    public function fetchCandidates()
+    {
+        $request = service('request');
+
+        // DataTables parameters
+        $draw = $request->getGet('draw');
+        $start = (int) $request->getGet('start');
+        $length = (int) $request->getGet('length');
+        $searchValue = $request->getGet('search')['value'];
+
+
+
+        // Search filter
+        if (!empty($searchValue)) {
+            $this->applicationModel->like('cand_name_eng', $searchValue);
+            $this->applicationModel->orLike('father_name_eng', $searchValue);
+            $this->applicationModel->orLike('cnic', $searchValue);
+        }
+
+        // Get filtered data
+        $candidates = $this->applicationModel
+            ->whereIn('status', ['submitted', 'Rejected'])
+            ->limit($length, $start)
+            ->find();
+
+        // Total records with filtered status
+        $totalRecords = $this->applicationModel
+            ->whereIn('status', ['submitted', 'Rejected'])
+            ->countAllResults();
+
+        // Total filtered records (with search)
+        $totalFiltered = $this->applicationModel
+            ->groupStart()
+            ->like('cand_name_eng', $searchValue)
+            ->orLike('father_name_eng', $searchValue)
+            ->groupEnd()
+            ->whereIn('status', ['submitted', 'Rejected']) // Ensures filtering applies only to submitted/rejected
+            ->countAllResults();
+
+        // Format response
+        $data = [];
+        $sr = 0;
+        foreach ($candidates as $candidate) {
+            $sr++;
+            $data[] = [
+                $sr,
+                $candidate['form_number'],
+                $candidate['district_domicile'],
+                $candidate['cand_name_eng'],
+                $candidate['father_name_eng'],
+                $candidate['cnic'],
+                $candidate['phone'],
+                $candidate['status']
+            ];
+        }
+        return $this->response->setJSON([
+            "draw" => intval($draw),
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalFiltered,
+            "data" => $data
+        ]);
     }
 
 
-    public function usersList(){
+    public function usersList()
+    {
         return view('user/users_list');
     }
 
@@ -188,7 +358,7 @@ class AdminController extends BaseController
         $length = (int) $request->getGet('length');
         $searchValue = $request->getGet('search')['value'];
 
-        
+
 
         // Search filter
         if (!empty($searchValue)) {
@@ -225,5 +395,9 @@ class AdminController extends BaseController
             "data" => $data
         ]);
     }
-   
+
+    public function dashboard()
+    {
+        return view('user/dashboard');
+    }
 }

@@ -11,22 +11,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#000000">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  
+
   <!-- Load jQuery first -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Then load Select2 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  <!-- Then load Select2 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-<!-- Select2 CSS (for styling) -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  <!-- Select2 CSS (for styling) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
-  
-  
+
+
   <link rel="stylesheet" href="<?= base_url('assets/css/styles.css') ?>">
   <link rel="icon" type="image/x-icon" href="<?= base_url('assets/images/logo.png') ?>">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -43,9 +43,6 @@
     <?= $this->renderSection('content');  ?>
   </div>
   <script>
-
-
-
     window.onload = function() {
       document.getElementById("web-loader").style.display = "none";
     };
@@ -56,7 +53,7 @@
 
 
     const buttonsFrG = document.querySelectorAll('.btn-ldr');
-   
+
     // Function to handle the button click event
     buttonsFrG.forEach(button => {
       // Create an image element
